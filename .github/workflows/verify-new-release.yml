@@ -1,35 +1,13 @@
-name: "Samply.Lens Github Workflow"
+name: "Samply.Lens verify new Release"
 on:
   pull_request:
     branches:
       - main
-      - develop
-  push:
-    branches:
-      - main
-      - develop
 
 jobs:
-  verify-code:
+  verify-new-release:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-      - run: npm ci
-      # for now disable code format check, will be activated later
-      # name: "Check Code Format"
-      #   run: npm run format:check
-      - name: "Check Security"
-        run: npm run security:check
-      # for now disable linting, will be activated later
-      # run: npm run lint
-
-  verify-pull-request:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.repository.default_branch == 'main'
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -60,29 +38,3 @@ jobs:
               echo "::error:: Please update the version of auth/package.json according to the semantic versioning guidelines!"; \
               exit 1; \
             fi
-      - name: "Ensure Changelog was updated"
-        run: |
-          if [[ "$(git diff ${{ github.event.repository.default_branch }} ${{ github.head_ref }} -- CHANGELOG.md | wc -l)" -eq 0 ]]; then \
-            echo "::error:: Please update the changelog before merging to the default branch!" && exit 1; \
-          fi
-
-  build:
-    needs: [verify-code]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build:lib @samply/lens-core
-      - run: npm run build:lib @samply/lens-components
-      - run: npm run build:lib @samply/lens-auth
-      # Unit Tests need to run here because they require the libraries build
-      - run: npm run test:headless
-      # Release also seems to run here
-      - run: npm publish --access public --workspaces
-        if: github.branch_name == 'main'
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
