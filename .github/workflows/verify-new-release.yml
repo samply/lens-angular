@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: git checkout --track origin/${{ github.event.repository.default_branch }}
-      - run: git checkout --track origin/${{ github.head_ref }}
+      - run: git checkout ${{ github.head_ref }}
       - name: "Ensure Package Version changed"
         run: |
             if [ "$(git diff ${{ github.event.repository.default_branch }} ${{ github.head_ref }} -- package.json | grep version | wc -l)" -eq 0 ]; then \
