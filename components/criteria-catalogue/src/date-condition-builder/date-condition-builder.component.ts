@@ -12,19 +12,6 @@ import {
   Criteria
 } from '@samply/lens-core';
 
-/*
-* This component lets the user define conditions based on dates.
-* Supported ConditionTypes:
-*   "GREATER_THAN", "LOWER_THAN", "BETWEEN"
-* Example:
-* new Criteria(
-*    "sampling_date",
-*    {de: "Probenahmedatum", en: "Sampling date"},
-*    "date",
-*    "",
-*    ["LOWER_THAN", "GREATER_THAN", "BETWEEN"],
-* )
- */
 @Component({
   selector: 'lens-date-condition-builder',
   templateUrl: './date-condition-builder.component.html',
@@ -61,7 +48,6 @@ export class DateConditionBuilderComponent implements OnInit {
   }
 
   onChange() {
-    // TODO: onInput would fire without pressing "ENTER", search a way for updating ngModel according to new value passed as $event.value
     if (this.currentCondition != undefined && typeof this.currentCondition.value == "object"
       && !(this.currentCondition.value instanceof Array)){
       if (this.currentCondition.value.min != undefined && this.currentCondition.value.max != undefined) {

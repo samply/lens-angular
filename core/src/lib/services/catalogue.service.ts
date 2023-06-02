@@ -28,43 +28,16 @@ export class CatalogueService {
     })
   }
 
-  // TODO: Move logic for querying the MDR to a separate MDRCatalogueFetcherService
-  getEntities(catalogue: Array<Category>): void {
-    this.buildEntityTree(catalogue)
-  }
-
-  buildEntityTree(catalogue: Array<Category>): any {
-    catalogue[2].children.forEach((maingroup: Category | Criteria) => {
-      if (maingroup instanceof Category) {
-        maingroup.children.forEach((subgroup: Category | Criteria) => {
-          if (subgroup instanceof Criteria) {
-            subgroup.values?.forEach((value) => {
-              /*this.httpClient.get<any>("https://mdr.ccp-it.dktk.dkfz.de/v3/api/mdr/catalogs/urn:dktk:catalog:1:2/codes/" + value.key + "/slots").subscribe(slot => {
-                let result = JSON.parse(xml2json(slot[0].slot_value, {compact: true}))
-                if(value.predefined) {
-                  value.predefined.children = this.translateXMLtoJSON(result)
-                  //console.log(this.mockCatalogue[2])
-                }
-              })*/
-            })
-          }
-        })
-      }
-    })
-  }
-
   translateXMLtoJSON(xml: any): Condition[] {
     let diag = xml['ns8:And']['ns8:Or'][0]['ns8:Like']
     let morph = xml['ns8:And']['ns8:Or'][1]['ns8:Eq']
     let entity: any[] = []
-    let entity2: string[] = []
 
     if (Array.isArray(diag)) {
       const diagOperation: any[] = []
       diag.forEach((elem: any) => {
         diagOperation.push(new Condition("urn:dktk:dataelement:29:2", "CONTAINS","", this.getElement(elem)))
       })
-      // entity.push(new Operation("OR", diagOperation))
     } else {
       entity.push(new Condition("urn:dktk:dataelement:29:2", "CONTAINS","", this.getElement(diag)))
     }
@@ -73,7 +46,6 @@ export class CatalogueService {
       morph.forEach((elem: any) => {
         morphOperation.push(new Condition("urn:dktk:dataelement:7:2", "EQUALS","", this.getElement(elem)))
       })
-      // entity.push(new Operation("OR", morphOperation))
     } else {
       entity.push(new Condition("urn:dktk:dataelement:7:2", "EQUALS","", this.getElement(morph)))
     }

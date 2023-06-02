@@ -7,7 +7,6 @@ export type ConditionTypes =
   | "GREATER_THAN"
   | "CONTAINS";
 
-// * TODO: This should select the used condition, and also the used template
 export class Condition {
   constructor(
     public key: string = "",

@@ -12,20 +12,6 @@ import {
   Criteria
 } from '@samply/lens-core';
 
-/*
-* This component lets the user define conditions based on numbers.
-* Supported ConditionTypes:
-*   "GREATER_THAN", "LOWER_THAN", "EQUALS", "BETWEEN"
-* Example:
-* new Criteria(
-*   "age_at_diagnosis",
-*   {
-*     de: "Alter bei Diagnose",
-*     en: "Age at Diagnosis"
-*   },
-*   "number",
-* )
- */
 @Component({
   selector: 'lens-number-condition-builder',
   templateUrl: './number-condition-builder.component.html',
@@ -62,7 +48,6 @@ export class NumberConditionBuilderComponent implements OnInit {
   }
 
   onChange() {
-    // TODO: onInput would fire without pressing "ENTER", search a way for updating ngModel according to new value passed as $event.value
     if (this.currentCondition.value instanceof Number) {
       this.currentCondition.type = "EQUALS"
     } else if (typeof this.currentCondition.value == "object" && !(this.currentCondition.value instanceof Array)) {

@@ -3,6 +3,5 @@
 }
 
 ::ng-deep .p-progressbar-value {
-  /*TODO: Find a way without important */
   background: var(--color-blue) !important;
 }

@@ -13,40 +13,6 @@ import {
   Operation
 } from '@samply/lens-core';
 
-/*
-* This component lets the user select predefined complex query conditions with a single click
-* Supported Condition Types are:
-*   "IN"
-* Example:
-*   new Criteria(
-*     "gliom_all_groups",
-*     {
-*       de: "Gliome, alle Gruppen",
-*       en: "Gliom, all groups"},
-*     "predefined",
-*     [],
-*     [{
-*       key: "gliom_grade_1",
-*       de: "Gliom - Grad I",
-*       en: "Gliom - Grade I",
-*       predefined: new Operation(
-*         "AND",
-*         [
-*           new Condition(
-*             "diagnosis",
-*             "CONTAINS",
-*             "D43."
-*           ),
-*           new Condition(
-*             "MORPHOLOGIE",
-*             "EQUALS",
-*             "9390/1"
-*           )
-*         ]
-*       )
-*     }]
-*   )
-* */
 @Component({
   selector: 'lens-predefined-condition-builder',
   templateUrl: './predefined-condition-builder.component.html',
