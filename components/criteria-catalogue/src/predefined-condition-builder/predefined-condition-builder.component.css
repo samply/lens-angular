@@ -1,0 +1,6 @@
+.field-checkbox {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}

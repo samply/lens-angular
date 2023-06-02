@@ -1,0 +1,3 @@
+<div *ngFor="let value of criteria.values" class="field-checkbox">
+  <p-checkbox [name]="key" [value]="value" [label]="value.de" [(ngModel)]="selectedOperations" [inputId]="value.key" (ngModelChange)="onChange()"></p-checkbox>
+</div>

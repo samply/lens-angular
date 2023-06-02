@@ -1,0 +1,28 @@
+<div *ngIf="(currentCondition.type == 'EQUALS')" class="p-inputgroup">
+  <span i18n="@@number-condition-builder.equals">equals:</span>
+  <p-inputNumber [(ngModel)]="currentCondition.value"
+                 [useGrouping]="false"
+                 [allowEmpty]="false"
+                 (ngModelChange)="onChange()">
+  </p-inputNumber>
+</div>
+<div *ngIf="(currentCondition.type == 'LOWER_THAN' || currentCondition.type == 'BETWEEN' || currentCondition.type == 'GREATER_THAN')" class="p-inputgroup">
+  <span i18n="@@number-condition-builder.from">from:</span>
+  <p-inputNumber [(ngModel)]="$any(currentCondition.value).min"
+                 (ngModelChange)="onChange()"
+                 [useGrouping]="false"
+                 [allowEmpty]="false"
+                 [class.ng-invalid]="!currentCondition.isValid()"
+                 [class.ng-dirty]="!currentCondition.isValid()"
+                 class="p-inputnumber-from">
+  </p-inputNumber>
+  <span i18n="@@number-condition-builder.to">to:</span>
+  <p-inputNumber [(ngModel)]="$any(currentCondition.value).max"
+                 (ngModelChange)="onChange()"
+                 [useGrouping]="false"
+                 [allowEmpty]="false"
+                 [class.ng-invalid]="!currentCondition.isValid()"
+                 [class.ng-dirty]="!currentCondition.isValid()"
+                 class="p-inputnumber-to">
+  </p-inputNumber>
+</div>

@@ -1,0 +1,54 @@
+p-card {
+  display: grid;
+}
+
+::ng-deep p-card, ::ng-deep p-card-body, ::ng-deep p-card-content {
+  height: 100%;
+}
+
+:host ::ng-deep .p-paginator button {
+ color: var(--color-blue);
+ height: 1.5rem;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+  color: white;
+  box-shadow: none;
+  cursor: auto !important;
+  height: 1.5rem;
+}
+
+
+@media screen and (min-width: 916px) {
+  :host ::ng-deep .p-paginator button, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    height: 2rem;
+    }
+  }
+
+@media screen and (min-width: 1160px) {
+  :host ::ng-deep .p-paginator button, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    height: 2.3rem;
+    }
+  }
+
+:host *, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  font-size: 0.67rem;
+}
+
+@media screen and (min-width: 916px) {
+  :host *, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+      font-size: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 1160px) {
+    :host *, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+      font-size: 1.3rem;
+    }
+  }
+
+lens-negotiate-button {
+  /* TODO: How to align right?*/
+}

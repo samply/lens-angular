@@ -1,0 +1,14 @@
+{
+  "name": "@samply/lens-auth",
+  "version": "0.0.2",
+  "peerDependencies": {
+    "@angular/common": "^15.1.0",
+    "@angular/core": "^15.1.0",
+    "angular-oauth2-oidc": "^15.0.1",
+    "primeng": "^15.4.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

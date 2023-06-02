@@ -1,0 +1,9 @@
+<h1>{{resultRenderer.title}}</h1>
+<div class="flex align-items-center flex-wrap">
+  <!-- TODO: Add a configuration for the pictogram mapping -->
+  <p-chip *ngFor="let result of results"
+          styleClass="mr-2"
+          label="{{translateKey(result.key)}}: {{result.population}}">
+  </p-chip>
+</div>
+<lens-negotiate-button *ngIf="resultRenderer.showNegotiationButton"></lens-negotiate-button>

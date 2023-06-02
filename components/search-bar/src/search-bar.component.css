@@ -1,0 +1,66 @@
+/* This ensures our component will have complete height and width available */
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+.p-inputgroup {
+  align-items: center !important;
+  /* box-shadow: 0 1px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); */
+}
+
+.buttons {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.buttons button {
+  width: 100px;
+}
+
+:host ::ng-deep .p-focus {
+  border-color: var(--color-blue) !important;
+}
+
+:host ::ng-deep * {
+  box-shadow: none !important;
+}
+
+::ng-deep .p-autocomplete-panel {
+  max-height: 32vh !important;
+}
+
+:host ::ng-deep.p-autocomplete-multiple-container{
+  border-radius: 5px !important;
+}
+
+.suggestion-item {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.suggestion-item > * {
+  flex: 1 1 50%
+}
+
+::ng-deep .highlighted {
+  font-weight: bold;
+}
+
+.buttonColor {
+  background-color: #00618f;
+}
+
+::ng-deep .p-inputgroup button {
+  margin-left: 8px !important;
+  border-radius: 5px !important;
+  height: 36px;
+}
+::ng-deep .p-inputgroup button:focus{
+  box-shadow: none !important;
+}
+
+::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token {
+  background-color: var(--color-blue) !important;
+}
