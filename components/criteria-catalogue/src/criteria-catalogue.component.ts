@@ -44,16 +44,4 @@ export class CriteriaCatalogueComponent implements OnInit {
     }
   }
 
-  onOperationChange(operation: Operation) {
-    // TODO: Implement check for existing operation
-    console.log("OperationChanged triggered!")
-    if (true) {
-      this.queryService.create(operation)
-    } /*else if (false) {
-      this.queryService.query.ast.children.splice(index, 1)
-    } else {
-      this.queryService.query.ast.children.push(operation);
-    }*/
-  }
-
 }

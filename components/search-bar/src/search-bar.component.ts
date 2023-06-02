@@ -67,7 +67,6 @@ export class SearchBarComponent {
           }));
       }).slice(0,20).flatMap(criteria => {
         let criteriaSuggestions: Array<Condition | Operation> = []
-        // TODO: Maybe add filtering here to ...
         if (criteria.values != undefined) {
           criteria.values.forEach(value => {
             if (value instanceof Operation) {
@@ -124,7 +123,6 @@ export class SearchBarComponent {
     let existingValue = this.queryService.read($event.key);
     console.log(existingValue)
     if (existingValue) {
-      // TODO: This needs to merge with the previous values!!!
       this.queryService.update($event)
     } else {
       this.queryService.create($event)

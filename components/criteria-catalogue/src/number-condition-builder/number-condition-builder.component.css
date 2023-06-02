@@ -9,14 +9,6 @@
   padding: 0.3rem 0.5rem;
 }
 
-/*
-.p-condition {
-  max-width: 40%;
-}
-::ng-deep .p-condition span {
-  font-size: 7pt;
-  padding: 0.4rem 0.4rem;
-}
 /** HACK: Needed because dropdown and inputgroup dont like each other: https://github.com/primefaces/primeng/issues/9741#issuecomment-1004590566
     NOTE: Thanks to the hack, displayname is not correctly baselined */
 p-dropdown {

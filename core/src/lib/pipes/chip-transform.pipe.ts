@@ -15,7 +15,6 @@ export class ChipTransformPipe implements PipeTransform {
   }
 
   transform(value: Condition | Operation): string {
-    // FIXME: This somehow doesn't fire then updating a condition from a diagram.
     if (value instanceof Condition) {
       switch (typeof value.value) {
         case "string":

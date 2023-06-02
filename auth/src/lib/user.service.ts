@@ -7,7 +7,6 @@ import {LENS_AUTH_CONFIG_TOKEN, LensAuthConfig} from "./lens-auth-config";
   providedIn: 'root'
 })
 export class UserService {
-  // TODO: Is this still needed?
   private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
   private readonly authorizationRules: Array<{ claim: string; value: string }> = [];
@@ -34,17 +33,16 @@ export class UserService {
    */
   login(): Promise<boolean> {
     return this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      // TODO: Check if we can do
       if (!this.oauthService.hasValidIdToken()) {
         this.oauthService.initLoginFlow();
         return false;
       } else {
         let authorized = this.isAuthorized();
-        this.isAuthenticatedSubject$.next(authorized)
+        this.isAuthenticatedSubject$.next(authorized);
         return authorized;
       }
     }).catch(() => {
-      console.error("Failed to load discovery document from identity provider.")
+      console.error("Failed to load discovery document from identity provider.");
       return false
     })
   }

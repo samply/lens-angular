@@ -38,17 +38,23 @@ p-card {
 }
 
 @media screen and (min-width: 916px) {
-  :host *, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-      font-size: 1rem;
-    }
+  :host *,
+  :host
+    ::ng-deep
+    .p-paginator
+    .p-paginator-pages
+    .p-paginator-page.p-highlight {
+    font-size: 1rem;
   }
+}
 
-  @media screen and (min-width: 1160px) {
-    :host *, :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-      font-size: 1.3rem;
-    }
+@media screen and (min-width: 1160px) {
+  :host *,
+  :host
+    ::ng-deep
+    .p-paginator
+    .p-paginator-pages
+    .p-paginator-page.p-highlight {
+    font-size: 1.3rem;
   }
-
-lens-negotiate-button {
-  /* TODO: How to align right?*/
 }

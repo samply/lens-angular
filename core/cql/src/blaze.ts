@@ -45,26 +45,22 @@ export class Blaze implements RequestTarget {
 
     this.isLoadingSubject$.next(true);
 
-    // FIXME: This blocks the ui for some time, as all calls are executed synchronous
     let libResult = await firstValueFrom(
       this.client.post<any>(this.url.toString() + 'fhir/Library', library, httpOptions)
       .pipe(catchError(err => {
         this.isLoadingSubject$.next(false);
-        // TODO: pass error string here
         throw `Error then creating library ${libUUID} at ${this.url}`;
       })));
     let meaResult = await firstValueFrom(
       this.client.post<any>(this.url.toString() + 'fhir/Measure', measure, httpOptions)
       .pipe(catchError(err => {
         this.isLoadingSubject$.next(false);
-        // TODO: pass error string here
         throw `Error then creating measure ${meaUUID} at ${this.url}`;
       })));
     let result = await firstValueFrom(
       this.client.get(this.url.toString() + 'fhir/Measure/$evaluate-measure?measure=' + meaResult.url + '&periodStart=2000&periodEnd=2030', httpOptions)
       .pipe(catchError(err => {
         this.isLoadingSubject$.next(false);
-        // TODO: pass error string here
         throw `Error then requesting results for ${measure.url} at ${this.url}`;
       })));
 

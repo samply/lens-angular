@@ -13,7 +13,6 @@ export class RequestTargetFactoryService {
   }
 
   create(requestTarget: RequestTarget): RequestTarget {
-    // TODO: Add possibility to switch between HttpClient and Listening to a WebSocket
     requestTarget.client = this.httpClient
     return requestTarget
   }

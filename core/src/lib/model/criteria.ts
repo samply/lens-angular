@@ -11,7 +11,6 @@ export class Criteria {
       de: string,
       en: string
     },
-    // TODO: Maybe this needs to be part of an enum?
     public type: "string" | "number" | "boolean" | "date" | "predefined",
     public system: string,
     public allowedConditionTypes: Array<ConditionTypes> = [],
@@ -38,7 +37,6 @@ export class Criteria {
   public convertToTreeNode(): TreeNode {
     return {
       key: this.key,
-      // TODO: Implement selection between german and english
       label: this.displayName.de,
       children: [{
         key: this.key,
