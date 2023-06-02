@@ -1,0 +1,30 @@
+::ng-deep canvas:hover {cursor: pointer}
+
+::ng-deep p-card {
+  display: grid;
+}
+
+::ng-deep .p-card-body {
+  display: grid;
+  grid-template-rows: 60px auto;
+}
+
+::ng-deep .p-card-content {
+  display: grid;
+  /*Trust me, i am an engineer :) see: https://itnext.io/a-fully-responsive-chart-js-chart-91a72ef5e2c */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 30px;
+}
+
+::ng-deep p-card, ::ng-deep .p-card-body, ::ng-deep .p-card-content {
+  height: 100%;
+}
+
+.hint-list {
+  height: 30px;
+  font-size: 0.5em
+}
+
+::ng-deep .p-card .p-card-title {
+  min-height: 60px;
+}

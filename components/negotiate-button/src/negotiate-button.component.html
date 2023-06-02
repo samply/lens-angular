@@ -1,0 +1,21 @@
+<button
+  pButton
+  pRipple
+  icon="pi pi-send"
+  class="mr-2 p-button-raised"
+  [style.color]="colors.getPrimaryButtonColors().buttonSuccess[0]"
+  [style.background]="colors.getPrimaryButtonColors().buttonSuccess[1]"
+  [style.borderColor]="colors.getPrimaryButtonColors().buttonSuccess[1]"
+  i18n-label="indication for the user that clicking this button will start negotiation with multiple sites"
+  label="Ask {{selectedNegotiationPartners.length}} sites to negotiate"
+  [disabled]="selectedNegotiationPartners.length === 0"
+  (click)="sendNegotiationRequest()">
+</button>
+<p-tag
+  *ngIf="isQueryModified()"
+  class="mr-2"
+  icon="pi pi-exclamation-triangle"
+  severity="warning"
+  i18n-value="warn the user that search parameters are modified"
+  value="Search has been modified!">
+</p-tag>

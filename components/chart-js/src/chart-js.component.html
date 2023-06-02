@@ -1,0 +1,12 @@
+<p-card [header]="title">
+  <p-chart [type]="type"
+    width="2000"
+    height="2000"
+    [data]="chartData"
+    [options]="chartOptions"
+    (onDataSelect)="onDataSelected($event)">
+  </p-chart>
+  <div id="hint-list" *ngIf="hints.length > 0">
+    <p class="hint-list-item" *ngFor="let hint of hints; let index=index">{{'*'.repeat(index + 1) + '\t' + hint}}</p>
+  </div>
+</p-card>

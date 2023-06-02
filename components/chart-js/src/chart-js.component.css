@@ -1,0 +1,24 @@
+.hint-list-item {
+  font-size: 0.75em;
+  margin: 6px;
+}
+
+::ng-deep canvas:hover {
+  cursor: pointer;
+}
+
+::ng-deep .p-card, ::ng-deep .p-card-body, ::ng-deep .p-card-content {
+  height: 100%;
+}
+
+::ng-deep canvas, ::ng-deep div.p-skeleton {
+  max-height: 26vh;
+}
+
+::ng-deep .extra-high-diagram>lens-chart>p-card>.p-card>.p-card-body>.p-card-content>p-chart>div>canvas {
+  max-height: 78vh;
+}
+
+.hint-list-item {
+  font-size: 0.75em;
+}

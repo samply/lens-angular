@@ -1,0 +1,23 @@
+::ng-deep lens-result-renderer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  /* TODO: Should we adjust this for different screen sizes? */
+  grid-auto-rows: 500px;
+  grid-gap: 1.5rem;
+}
+
+::ng-deep lens-result-renderer-grid>.wide-diagram {
+  grid-column: auto / span 2;
+}
+
+::ng-deep lens-result-renderer-grid>.high-diagram {
+  grid-row: auto / span 2;
+}
+
+::ng-deep lens-result-renderer-grid>.extra-wide-diagram {
+  grid-column: auto / span 4;
+}
+
+::ng-deep lens-result-renderer-grid>.extra-high-diagram {
+  grid-row: auto / span 4;
+}

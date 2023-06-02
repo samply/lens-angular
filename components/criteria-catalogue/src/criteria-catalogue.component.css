@@ -1,0 +1,86 @@
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .p-tree {
+  padding-left: 0;
+  padding-right: .7rem;
+}
+
+::ng-deep .pi, ::ng-deep .p-treenode-label {
+  font-size: 1rem;
+}
+::ng-deep .p-inputgroup > p-button > .p-button-icon-only {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  font-size: 1rem;
+  padding: 0;
+}
+
+::ng-deep .p-tree .p-tree-container .p-treenode .p-treenode-content .p-checkbox-label {
+  padding: 0px;
+  cursor: pointer;
+}
+
+::ng-deep .field-checkbox {
+  font-size: 1rem;
+  margin: 0px;
+}
+
+/* NOTE: Workaround for clipping issue with select buttons in treenode */
+::ng-deep .p-tree, ::ng-deep .p-tree-wrapper, ::ng-deep .p-tree-wrapper>ul {
+  height: 100%;
+}
+
+::ng-deep .p-tree .p-treenode-children {
+  padding: 0 0 0 1.2rem !important;
+}
+::ng-deep .p-treenode .p-treenode .p-treenode {
+  border-left: 1px solid #6c757d;
+}
+
+::ng-deep .p-tree .p-tree-container .p-treenode .p-treenode-content {
+  border-radius: 0px;
+  padding: 0.21rem;
+}
+::ng-deep .p-treenode .p-treenode .p-treenode .p-treenode p-checkbox {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+::ng-deep .p-treenode {
+  padding-bottom: 0;
+  padding-top: 0;
+  cursor: default;
+}
+
+::ng-deep .p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler:focus, ::ng-deep .p-tree .p-tree-container .p-treenode .p-treenode-content:focus {
+  box-shadow: none !important;
+}
+
+/* ::ng-deep .field-checkbox * {
+  box-shadow: none !important;
+} */
+
+
+:host ::ng-deep * {
+  box-shadow: none !important;
+}
+
+:host ::ng-deep *:focus {
+  border-color: var(--color-blue) !important;
+}
+
+::ng-deep .p-focus {
+  border-color: var(--color-blue) !important;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+}
+
+:host ::ng-deep .p-button {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+}

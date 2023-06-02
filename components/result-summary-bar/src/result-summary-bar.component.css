@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  padding: 24px;
+}
+
+::ng-deep p-chip .p-chip {
+  background-color: white;
+}
+
+.heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 1160px) {
+  .heading {
+    font-size: 1.3rem;
+  }
+}

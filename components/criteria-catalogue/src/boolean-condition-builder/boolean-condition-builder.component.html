@@ -1,0 +1,7 @@
+<p-checkbox class="check-box" *ngIf="selectedCondition == 'EQUALS'"
+            [inputId]="key"
+            [binary]="true"
+            label="Ja"
+            [(ngModel)]="currentConditionValue"
+            (onChange)="onChange()">
+</p-checkbox>

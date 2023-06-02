@@ -1,0 +1,5 @@
+export * from './src/chart-js.module'
+export * from './src/chart-js.component'
+export * from './src/bar-chart/bar-chart.component'
+export * from './src/pie-chart/pie-chart.component'
+export * from './src/line-chart/line-chart.component'
