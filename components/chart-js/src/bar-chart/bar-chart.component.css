@@ -1,0 +1,45 @@
+::ng-deep canvas:hover {cursor: pointer}
+
+::ng-deep p-card {
+  display: grid;
+}
+
+::ng-deep .p-card-body {
+  display: grid;
+  grid-template-rows: 60px auto;
+}
+
+::ng-deep .p-card-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* TODO: Can we let this be computed at runtime, so the place is not reserved then no hinting is necessary? */
+  grid-template-rows: auto 30px;
+}
+
+::ng-deep p-card, ::ng-deep .p-card-body, ::ng-deep .p-card-content {
+  height: 100%;
+}
+
+.hint-list {
+  height: 30px;
+  font-size: 0.5em
+}
+
+::ng-deep .p-card .p-card-title {
+    min-height: 30px;
+    font-size: 0.67rem;
+}
+
+@media screen and (min-width: 916px) {
+::ng-deep .p-card .p-card-title {
+  min-height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 1160px) {
+  ::ng-deep .p-card .p-card-title {
+    min-height: 50px;
+    font-size: 1.3rem;
+  }
+}

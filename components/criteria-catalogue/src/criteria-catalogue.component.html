@@ -1,0 +1,28 @@
+<p-tree [value]="catalogue" >
+  <ng-template let-node pTemplate="default">
+    <span (click)="node.expanded = !node.expanded">{{node.label}}</span>
+  </ng-template>
+  <ng-template let-node pTemplate="string">
+    <lens-string-condition-builder [key]="node.key">
+    </lens-string-condition-builder>
+  </ng-template>
+  <ng-template let-node pTemplate="boolean">
+    <lens-boolean-condition-builder [key]="node.key"
+                                    (conditionChange)="onConditionChange($event)">
+    </lens-boolean-condition-builder>
+  </ng-template>
+  <ng-template let-node pTemplate="number">
+    <lens-number-condition-builder [key]="node.key"
+                                   (conditionChange)="onConditionChange($event)">
+    </lens-number-condition-builder>
+  </ng-template>
+  <ng-template let-node pTemplate="date">
+    <lens-date-condition-builder [key]="node.key"
+                                   (conditionChange)="onConditionChange($event)">
+    </lens-date-condition-builder>
+  </ng-template>
+  <ng-template let-node pTemplate="predefined">
+    <lens-predefined-condition-builder [key]="node.key">
+    </lens-predefined-condition-builder>
+  </ng-template>
+</p-tree>

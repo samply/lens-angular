@@ -1,0 +1,8 @@
+.hint-list {
+  height: 30px;
+  font-size: 0.5em
+}
+
+::ng-deep .p-card .p-card-title {
+  min-height: 60px;
+}

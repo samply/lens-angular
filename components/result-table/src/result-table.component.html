@@ -1,0 +1,32 @@
+<p-card header="{{resultRenderer.title}}">
+    <p-table
+      [value]="tableData"
+      [paginator]="true"
+      [rows]="5"
+      [selection]="selectedSites"
+      responsiveLayout="scroll"
+      (selectionChange)="onSelectedSitesChanged($event)">
+        <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th i18n="column header for the name of a site">Sites</th>
+              <th i18n="column header for the number of patients">Patients</th>
+              <th i18n="column header for the number of specimen">Specimen</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-result>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="result"></p-tableCheckbox>
+              </td>
+              <td *ngIf="resultRenderer.headers.size == 0">{{result.site}}</td>
+              <td *ngIf="resultRenderer.headers.size > 0">{{(resultRenderer.headers.has(result.site)) ? resultRenderer.headers.get(result.site) : result.site}}</td>
+              <td>{{result.patients}}</td>
+              <td>{{result.samples}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <lens-negotiate-button *ngIf="resultRenderer.showNegotiationButton"></lens-negotiate-button>
+</p-card>

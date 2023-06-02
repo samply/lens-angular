@@ -1,0 +1,53 @@
+<div *ngIf="(isCondition(currentCondition))">
+  <div [ngSwitch]="currentCondition.type">
+    <div *ngSwitchDefault class="p-inputgroup">
+      <span>{{currentCondition.getConditionDisplay()}}: </span>
+      <p-autoComplete [(ngModel)]="currentCondition.value"
+                      (onSelect)="checkForWildcard(); onChange()"
+                      [suggestions]="suggestions"
+                      [completeOnFocus]="true"
+                      (completeMethod)="autocomplete($event)"
+                      styleClass="w-full" class="p-autocomplete">
+        <ng-template let-suggestion pTemplate="item">
+          <span class="suggestion-key" [innerHtml]="suggestion | searchHighlight:currentSearchTerm"></span>
+          <p class="suggestion-addition"
+             [innerHtml]="getSuggestionDisplay(suggestion) | searchHighlight:currentSearchTerm"></p>
+        </ng-template>
+      </p-autoComplete>
+      <p-button icon="pi pi-plus" (click)="addCondition()"></p-button>
+    </div>
+    <div *ngSwitchCase="'IN'" class="field-checkbox">
+      <div *ngFor="let value of criteria.values" class="field-checkbox">
+        <p-checkbox [name]="key"
+                    [inputId]="value.key"
+                    [label]="value.de"
+                    [value]="value.key"
+                    [(ngModel)]="currentCondition.value"
+                    (ngModelChange)="onChange()">
+        </p-checkbox>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isOperation(currentCondition)">
+  <div *ngFor="let child of currentCondition.children">
+    <div *ngIf="isCondition(child)" class="p-inputgroup">
+     <span>{{child.getConditionDisplay()}}: </span>
+      <p-autoComplete [(ngModel)]="child.value"
+                      (onSelect)="checkForWildcard(); onChange()"
+                      [suggestions]="suggestions"
+                      [completeOnFocus]="true"
+                      (completeMethod)="autocomplete($event)"
+                      styleClass="w-full" class="p-autocomplete">
+        <ng-template let-suggestion pTemplate="item">
+          <span class="suggestion-key" [innerHtml]="suggestion | searchHighlight:currentSearchTerm"></span>
+          <p class="suggestion-addition"
+             [innerHtml]="getSuggestionDisplay(suggestion) | searchHighlight:currentSearchTerm"></p>
+        </ng-template>
+      </p-autoComplete>
+      <!-- We want to trigger on change here, to directly sync the removal to the query -->
+      <p-button icon="pi pi-minus" (click)="removeCondition(child.value); onChange()"></p-button>
+      <p-button icon="pi pi-plus" (click)="addCondition()"></p-button>
+    </div>
+  </div>
+</div>

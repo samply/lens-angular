@@ -1,0 +1,26 @@
+.p-inputgroup {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+::ng-deep .p-inputnumber-from input, ::ng-deep .p-inputnumber-to input {
+  font-size: 12pt;
+  padding: 0.3rem 0.5rem;
+}
+
+/*
+.p-condition {
+  max-width: 40%;
+}
+::ng-deep .p-condition span {
+  font-size: 7pt;
+  padding: 0.4rem 0.4rem;
+}
+/** HACK: Needed because dropdown and inputgroup dont like each other: https://github.com/primefaces/primeng/issues/9741#issuecomment-1004590566
+    NOTE: Thanks to the hack, displayname is not correctly baselined */
+p-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

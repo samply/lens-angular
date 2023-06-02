@@ -1,0 +1,22 @@
+<div *ngIf="(currentCondition.type == 'LOWER_THAN' || currentCondition.type == 'BETWEEN' || currentCondition.type == 'GREATER_THAN')" class="p-calendar">
+  <span i18n="@@date-condition-builder.from">from:</span>
+  <p-calendar [(ngModel)]="$any(currentCondition.value).min"
+              view="date"
+              appendTo="body"
+              [class.ng-invalid]="!currentCondition.isValid()"
+              [class.ng-dirty]="!currentCondition.isValid()"
+              [showClear]="true"
+              dateFormat="dd.mm.yy"
+              (ngModelChange)="onChange()">
+  </p-calendar>
+  <span i18n="@@date-condition-builder.to">to:</span>
+  <p-calendar [(ngModel)]="$any(currentCondition.value).max"
+              view="date"
+              appendTo="body"
+              [class.ng-invalid]="!currentCondition.isValid()"
+              [class.ng-dirty]="!currentCondition.isValid()"
+              [showClear]="true"
+              dateFormat="dd.mm.yy"
+              (ngModelChange)="onChange()">
+  </p-calendar>
+</div>

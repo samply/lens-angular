@@ -1,0 +1,7 @@
+<p-card header="{{resultRenderer.title}}">
+    <p-chart type="line" height="2000" width="2000" [data]="chartData" [options]="chartOptions"></p-chart>
+    <div class="hint-list">
+        <span *ngFor="let hint of resultRenderer.hints; let index=index">{{'*'.repeat(index + 1) +
+            '\t' + hint}}</span>
+    </div>
+</p-card>

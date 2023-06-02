@@ -1,0 +1,24 @@
+.p-calendar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.p-datepicker {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+::ng-deep .p-calendar-from input, ::ng-deep .p-calendar-to input {
+  font-size: 12pt;
+  padding: 0.3rem 0.5rem;
+}
+
+/* HACK: Needed because dropdown and inputgroup dont like each other: https://github.com/primefaces/primeng/issues/9741#issuecomment-1004590566
+   NOTE: Thanks to the hack, displayname is not correctly baselined */
+p-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
