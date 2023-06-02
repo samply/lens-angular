@@ -63,7 +63,7 @@ export class CqlTranslatorService implements QueryTranslator {
     ["observationMetastasis", "exists from [Observation: Code '21907-1' from {{A1}}] O\nwhere O.value.coding.code contains '{{C}}'"],
     ["observationMetastasisBodySite", "exists from [Observation: Code '21907-1' from {{A1}}] O\nwhere O.bodySite.coding.code contains '{{C}}'"],
     ["observationMolecularMarkerName", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value.coding contains Code '{{C}}' from {{A2}}"],
-    ["observationMolecularMarkerAminoacidchange", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'"],//TODO @ThomasK replace C with S
+    ["observationMolecularMarkerAminoacidchange", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'"],
     ["observationMolecularMarkerDNAchange", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'"],
     ["observationMolecularMarkerSeqRefNCBI", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'"],
     ["observationMolecularMarkerEnsemblID", "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'"],
@@ -97,7 +97,7 @@ export class CqlTranslatorService implements QueryTranslator {
     ["sample_kind", {type: "specimen", alias: ["specimentype"]}],
     ["pat_with_samples", {type: "hasSpecimen"}],
     ["age_at_diagnosis", {type: "conditionRangeAge"}],
-    ["21908-9", {type: "observation", alias: ["loinc", "uiccstadiumcs"]}],  //uicc TODO 2 profiles TNMc and TNMp is that a problem?
+    ["21908-9", {type: "observation", alias: ["loinc", "uiccstadiumcs"]}],  //uicc
     ["21905-5", {type: "TNM-x", alias: ["loinc", "TNMTCS"]}],  //tnm component
     ["21906-3", {type: "TNM-x", alias: ["loinc", "TNMNCS"]}],  //tnm component
     ["21907-1", {type: "TNM-x", alias: ["loinc", "TNMMCS"]}],  //tnm component
@@ -203,7 +203,6 @@ export class CqlTranslatorService implements QueryTranslator {
             case "department":
             case "TNM-x": {
               if (typeof criterion.value === "string") {
-                // TODO: Check if we really need to do this or we can somehow tell cql to do that expansion it self
                 if (criterion.value.slice(-1) === "%") {
                   const mykey = criterion.value.slice(0, -2)
                   if (this.criteria.values != undefined) {

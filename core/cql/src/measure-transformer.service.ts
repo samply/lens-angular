@@ -6,7 +6,6 @@ import { Measure, ResultTransformer, Stratifier } from '@samply/lens-core';
 })
 export class MeasureTransformerService implements ResultTransformer {
 
-  //TODO outsource to the config
   public siteToDefaultCollectionId: Map<string, string> = new Map<string, string>()
     .set("dresden", "bbmri-eric:ID:DE_BBD:collection:DILB")
     .set("frankfurt", "bbmri-eric:ID:DE_iBDF:collection:UCT")
@@ -21,9 +20,7 @@ export class MeasureTransformerService implements ResultTransformer {
   constructor() {
   }
 
-  // TODO: Rethink process for creating the sites measures --> can we transfer parts to the backend?
   transform(results: Map<string, any>): Array<Measure> {
-    // TODO: Check naming: MeasureReport!
     let measures: Array<Measure> = []
     let siteMeasure = new Measure("sites", 0, [])
     let patientsPerSite = new Stratifier(
@@ -38,7 +35,6 @@ export class MeasureTransformerService implements ResultTransformer {
           siteMeasures.push(this.transformToMeasure(group, requestTarget))
         })
       } else {
-        // TODO: Error handling here!
         console.log("Received empty dataset from site, adding empty measures for this site!")
         siteMeasures.push(new Measure("patients", 0, []))
         siteMeasures.push(new Measure("specimen", 0, []))
@@ -77,7 +73,6 @@ export class MeasureTransformerService implements ResultTransformer {
       []
     )
     for (let stratifierIndex = 0; stratifierIndex < group.stratifier.length; stratifierIndex++) {
-      // FIXME: How to handle stratifieres like diagnosis, where code is an array of elements? Is this normal?
       let title: string = group.stratifier[stratifierIndex].code[0].text
       let stratifier = new Stratifier(
         title,
@@ -107,7 +102,6 @@ export class MeasureTransformerService implements ResultTransformer {
     return measure;
   }
 
-  // TODO: Search more efficient method for merging the measures
   public mergeMeasures(measures: Array<Measure>, siteMeasures: Array<Measure>): Array<Measure>{
     let mergedMeasures: Array<Measure> = measures;
     siteMeasures.forEach(transformedMeasure => {

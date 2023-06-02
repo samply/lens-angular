@@ -8,7 +8,6 @@ export class LensConfig {
     public requestTargets: RequestTarget[] = [],
     public resultRequests: {
       key: string,
-      // TODO: Move measure and cql to backend and insert placeholder.
       measure: Object
       cql: string,
     }[] = []

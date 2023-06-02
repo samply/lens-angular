@@ -85,8 +85,7 @@ export class NegotiatorService {
     const negotiatorURL = `https://negotiator.bbmri-eric.eu/api/directory/create_query?nToken=${query.id}`;
     const headersNegotiator = new HttpHeaders()
       .set('Accept', 'application/json; charset=utf-8')
-      .set('Content-Type', 'application/json')
-      .set('Authorization', 'Basic YmJtcmktZGlyZWN0b3J5Omw5RFJLVUROcTBTbDAySXhaUGQ2');
+      .set('Content-Type', 'application/json');
 
     let base64Query = btoa(JSON.stringify(query))
     const returnURL = `${window.location.protocol}//${window.location.host}?nToken=${query.id}&query=${base64Query}`;

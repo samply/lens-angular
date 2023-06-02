@@ -11,43 +11,6 @@ import {
   Operation
 } from '@samply/lens-core';
 
-/*
-* This component lets the user define conditions based on the string type.
-* Supported ConditionTypes:
-*   "IN", "EQUALS"
-* Example:
-*  new Criteria(
-*    "gender",
-*    {
-*      de: "Geschlecht",
-*      en: "Sex"
-*    },
-*    "string",
-*    ["IN"],
-*    [
-*      {
-*        "key": "male",
-*        "de": "männlich",
-*        "en": "male"
-*      },
-*      {
-*        "key": "female",
-*        "de": "weiblich",
-*        "en": "female"
-*      },
-*      {
-*        "key": "other",
-*        "de": "Sonstiges / intersexuell",
-*        "en": "diverse"
-*      },
-*      {
-*        "key": "unknown",
-*        "de": "unbekannt",
-*        "en": "unknown"
-*      }
-*    ]
-*  )
-* */
 @Component({
   selector: 'lens-string-condition-builder',
   templateUrl: './string-condition-builder.component.html',
@@ -124,7 +87,6 @@ export class StringConditionBuilderComponent implements OnInit {
       )) {
         wildcardSuggestions.push({
           key: child.key,
-          // TODO: We could accumulate all merged codes here to add a hint on all codes included.
           de: "",
           en: ""
         })

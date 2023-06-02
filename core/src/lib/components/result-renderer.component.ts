@@ -201,10 +201,4 @@ export class ResultRendererComponent implements OnInit {
     return header;
   }
 
-  /* Initiates a redirect to the negotiation service */
-  protected sendDataRequest() {
-    // TODO: Find out why this is not working?
-    // this.queryService.redirectToNegogiationService()
-  }
-
 }

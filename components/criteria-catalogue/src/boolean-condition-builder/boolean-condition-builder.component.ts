@@ -13,20 +13,6 @@ import {
   Criteria
 } from '@samply/lens-core';
 
-/*
-* This component lets the user define boolean based conditions.
-* Supported ConditionTypes:
-*   "EQUALS"
-* Example:
-* new Criteria(
-*   "radio_therapy",
-*   {
-*     de: "Radio Therapie",
-*     en: "Radio Therapy"
-*   },
-*   "boolean"
-* )
- */
 @Component({
   selector: 'lens-boolean-condition-builder',
   templateUrl: './boolean-condition-builder.component.html',
