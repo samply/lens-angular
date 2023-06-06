@@ -26,6 +26,7 @@
     "build:lib": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
+    "lint:commits": "commitlint --from=origin/develop",
     "prepare": "husky install"
   },
   "dependencies": {
