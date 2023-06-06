@@ -1,4 +1,13 @@
 # Changelog
+## [0.0.5] - 2023-06-06
+### :bug: Bug Fixes
+- [`80f9fb8`](https://github.com/samply/lens/commit/80f9fb8e5f10b050bd172273c727914a7e05f32a) - ensured packages declare their dependencies *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`073c27c`](https://github.com/samply/lens/commit/073c27cc10cb2dff325792adcdb31cb88ed6e336) - use correct path in release.yml *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :wrench: Chores
+- [`cf14057`](https://github.com/samply/lens/commit/cf14057592c349b281c52fe0e01d6624e1358e58) - update to package version 0.0.5 *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.0.3] - 2023-06-05
 ### :bug: Bug Fixes
 - [`d7c012b`](https://github.com/samply/lens/commit/d7c012b06ff80d138eac45c42cca879648565a33) - **core**: ensured main entrypoint is exported *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -24,3 +33,4 @@
 
 [0.0.2]: https://github.com/samply/lens/compare/0.0.1...0.0.2
 [0.0.3]: https://github.com/samply/lens/compare/0.0.2...0.0.3
+[0.0.5]: https://github.com/samply/lens/compare/0.0.3...0.0.5
