@@ -15,11 +15,22 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build:lib @samply/lens-core
-      - run: npm run build:lib @samply/lens-components
-      - run: npm run build:lib @samply/lens-auth
-      # Release also seems to run here
-      - run: npm publish --access public --workspaces
+      - name: "Build @samply/lens-core"
+        run: npm run build:lib @samply/lens-core
+      - name: "Build @samply/lens-components"
+        run: npm run build:lib @samply/lens-components
+      - name: "Build @samply/lens-auth"
+        run: npm run build:lib @samply/lens-auth
+      - name: "Publish @samply/lens-core"
+        run: cd ~/dist/samply/lens-core && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: "Publish @samply/lens-components"
+        run: cd ~/dist/samply/lens-components && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: "Publish @samply/lens-auth"
+        run: cd ~/dist/samply/lens-auth && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
@@ -29,6 +40,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Update CHANGELOG
         id: changelog

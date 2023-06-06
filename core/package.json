@@ -1,9 +1,10 @@
 {
   "name": "@samply/lens-core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "peerDependencies": {
     "@angular/common": "^15.1.0",
-    "@angular/core": "^15.1.0"
+    "@angular/core": "^15.1.0",
+    "primeng": "^15.4.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"
