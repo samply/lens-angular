@@ -22,15 +22,15 @@ jobs:
       - name: "Build @samply/lens-auth"
         run: npm run build:lib @samply/lens-auth
       - name: "Publish @samply/lens-core"
-        run: cd ~/dist/samply/lens-core && npm publish --access public
+        run: cd dist/samply/lens-core && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: "Publish @samply/lens-components"
-        run: cd ~/dist/samply/lens-components && npm publish --access public
+        run: cd dist/samply/lens-components && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: "Publish @samply/lens-auth"
-        run: cd ~/dist/samply/lens-auth && npm publish --access public
+        run: cd dist/samply/lens-auth && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
