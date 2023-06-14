@@ -7,19 +7,17 @@ import {HttpClient} from "@angular/common/http";
 export interface RequestTarget {
 
   /** Observable for interested parties to subscribe to any result received from this request target */
-  results$: Observable<Map<string, any>>
+  results$: Observable<Map<string, any>>;
   /** BehaviorSubject for results still loading for this request target */
-  isLoadingSubject$: BehaviorSubject<boolean>
+  isLoadingSubject$: BehaviorSubject<boolean>;
   /** Observable for results still loading for this request target */
-  isLoading$: Observable<boolean>
+  isLoading$: Observable<boolean>;
   /** Client used by this request target for backend requests. It will eventually be injected by the RequestTargetFactory */
-  client: HttpClient
+  client: HttpClient;
   /** key identifying this request target */
-  key: string,
+  key: string;
   /** url to the request target */
-  url: URL,
-
-  auth: string
+  url: URL;
 
   /** Send the query to the target presented by this instance */
   send(query: String, measures: Object[]): Promise<string>;

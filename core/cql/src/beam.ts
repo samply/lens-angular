@@ -41,11 +41,13 @@ export class Beam implements RequestTarget {
     public url: URL,
     // List of sites that should be called through this instance of Beam
     public sites: Array<string>,
-    public auth: string = "",
+    // Determines wether Access-Control Requests during CORS will send cookies etc.
+    public withCredentials: boolean = true
   ) {
   }
 
   async send(query: string, measures: Object[]): Promise<string> {
+    console.debug(`send running withCredentials: ${this.withCredentials}`)
     this.resultSubject$.next(new Map<string, any>())
 
     let baseCQL = btoa(unescape(encodeURIComponent(query)));
@@ -63,7 +65,7 @@ export class Beam implements RequestTarget {
         this.url.toString() + "tasks?sites=" + this.sites.toString(),
         Buffer.from(JSON.stringify(data)).toString('base64').trimEnd(),
         {
-          withCredentials: true
+          withCredentials: this.withCredentials
         }
       ).pipe(catchError(err => {
         console.error(`Received error then creating a new Beam Task through spot!`)
@@ -87,7 +89,7 @@ export class Beam implements RequestTarget {
         this.url.toString() + `tasks/${this.currentTask?.id}?wait_count=${i}`,
         {
           observe: "response",
-          withCredentials: true
+          withCredentials: this.withCredentials
         }
       ).pipe(
         map(response => {
