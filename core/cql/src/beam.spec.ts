@@ -8,4 +8,14 @@ describe('Beam', () => {
       ["first site"]
     )).toBeTruthy();
   });
+
+  it('should create an instance with withCredentials false', () => {
+    expect(new Beam(
+      "beam",
+      new URL("http://localhost:8080"),
+      ["first site"],
+      false
+    )).toBeTruthy();
+  });
+
 });

@@ -22,7 +22,7 @@ export class Blaze implements RequestTarget {
     public auth: string = "",
   ) {
     this.httpHeaders = new HttpHeaders()
-    .append('Content-Type', 'application/json');
+      .append('Content-Type', 'application/json');
   }
 
   async send(query: string, measures: Object[]): Promise<string> {
