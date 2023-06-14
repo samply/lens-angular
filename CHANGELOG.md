@@ -1,4 +1,9 @@
 # Changelog
+## [0.0.6] - 2023-06-14
+### :bug: Bug Fixes
+- [`3d9fe8b`](https://github.com/samply/lens/commit/3d9fe8bc2a26f43ea796267e701293c131c30981) - added with credentials flag for beam *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.0.5] - 2023-06-06
 ### :bug: Bug Fixes
 - [`80f9fb8`](https://github.com/samply/lens/commit/80f9fb8e5f10b050bd172273c727914a7e05f32a) - ensured packages declare their dependencies *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -34,3 +39,4 @@
 [0.0.2]: https://github.com/samply/lens/compare/0.0.1...0.0.2
 [0.0.3]: https://github.com/samply/lens/compare/0.0.2...0.0.3
 [0.0.5]: https://github.com/samply/lens/compare/0.0.3...0.0.5
+[0.0.6]: https://github.com/samply/lens/compare/0.0.5...0.0.6
