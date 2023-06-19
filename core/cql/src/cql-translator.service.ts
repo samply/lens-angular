@@ -138,7 +138,10 @@ export class CqlTranslatorService implements QueryTranslator {
       "include FHIRHelpers version '4.0.0'\n" +
       "\n"
 
-    let singletons: string = "define InInitialPopulation:\n"
+    let singletons: string = (this.configuration.backendMeasureReplacement)
+      ? "DKTK_STRAT_DEF_IN_INITIAL_POPULATION\n"
+      : "define InInitialPopulation:\n"
+
     query.children.forEach((criterion: Operation | Condition) => {
       singletons += this.getSingleton(criterion)
     })
