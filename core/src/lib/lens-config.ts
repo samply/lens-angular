@@ -10,7 +10,8 @@ export class LensConfig {
       key: string,
       measure: Object
       cql: string,
-    }[] = []
+    }[] = [],
+    public backendMeasureReplacement: boolean = true
   ) {
   }
 
