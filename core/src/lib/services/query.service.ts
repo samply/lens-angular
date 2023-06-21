@@ -6,7 +6,7 @@ import {Measure} from "../model/measure";
 import {LensConfig, LENS_CONFIG_TOKEN} from "../lens-config";
 import {Query} from "../model/query";
 import {Condition} from "../model/condition";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, debounceTime} from "rxjs";
 import {RequestTargetFactoryService} from "./request-target-factory.service";
 import {NegotiatorService} from "./negotiator.service";
 import { ChipTransformPipe } from '../pipes/chip-transform.pipe';
@@ -51,15 +51,17 @@ export class QueryService {
     })
     this.configuration.requestTargets.forEach(requestTarget => {
       requestTarget.isLoading$.subscribe(next => this.onRequestTargetIsLoading())
-      requestTarget.results$.subscribe({next : result => {
-        console.log(`Received results from request target ${requestTarget.key}`)
-        let currentResults = this.resultsSubject$.value;
-        result.forEach((value, key) => {
-          console.log(`Updated results for site ${key}`)
-          currentResults.set(key, value);
+      requestTarget.results$
+        .pipe(debounceTime(1000))
+        .subscribe({
+          next: result => {
+            let currentResults = this.resultsSubject$.value;
+            result.forEach((value, key) => {
+              currentResults.set(key, value);
+            })
+            this.resultsSubject$.next(currentResults);
+          }
         })
-        this.resultsSubject$.next(currentResults);
-      }})
     })
   }
 
