@@ -47,7 +47,6 @@ export class ResultRendererComponent implements OnInit {
   * */
   protected handleUpdatedData(measures: Measure[]) {
     this.results = [];
-    console.log(`handleUpdatedData is called`)
     this.resultRenderer.results.forEach(result => {
       let measure = measures.find(measure => measure.key == result.key);
       let stratifiers: Array<Stratifier> = [];
@@ -70,23 +69,17 @@ export class ResultRendererComponent implements OnInit {
         let measureAsStratifier = [{key: measure.key, population: measure.value}];
         this.results = this.results.concat(this.computeNewData(measureAsStratifier))
       } else {
-        this.results = this.emptyResultData();
+        this.results = this.results.concat(this.emptyResultData(result));
       }
     })
 
   }
 
-  /* Returns an emptyResultDataSet based on the expected Results. */
-  protected emptyResultData() {
-    let emptyResults: {key: string, population: number}[] = [];
-    this.resultRenderer.results.forEach(result => {
-      if (result.subset != undefined) {
-        emptyResults = emptyResults.concat({key: result.subset, population: 0})
-      } else {
-        emptyResults = emptyResults.concat({key: result.key, population: 0})
-      }
-    })
-    return emptyResults;
+  /* Returns an emptyResultDataSet based on the expected result. */
+  protected emptyResultData(result: {key: string, subset?: string}) {
+    return (result.subset != undefined) ?
+        {key: result.subset, population: 0} :
+        {key: result.key, population: 0}
   }
 
   /* Returns whether the current chart is empty.*/
