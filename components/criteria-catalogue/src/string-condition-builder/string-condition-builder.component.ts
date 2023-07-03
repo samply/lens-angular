@@ -103,7 +103,7 @@ export class StringConditionBuilderComponent implements OnInit {
 
   getSuggestionDisplay(suggestion: string): string {
     let foundDisplay = this.criteria.values?.find(value => value.key === suggestion)?.de;
-    return (foundDisplay != undefined) ? foundDisplay : "";
+    return (foundDisplay != undefined) ? foundDisplay : `suche nach allen subcodes`;
   }
 
   addCondition() {
