@@ -1,4 +1,13 @@
 # Changelog
+## [0.1.1] - 2023-07-07
+### :sparkles: New Features
+- [`d5c6566`](https://github.com/samply/lens/commit/d5c65667c0e936541e3df8c093ddf0557c56ff1f) - added with credentials flag for blaze *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :bug: Bug Fixes
+- [`46aa22c`](https://github.com/samply/lens/commit/46aa22cc29f5308e1c3136d833d0834daddc933c) - collect site results and emit them each second *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`6e7ddba`](https://github.com/samply/lens/commit/6e7ddba948cdeb9b1bd26481f27e61b3a5ea052b) - define empty results data per result *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.1.0] - 2023-06-19
 ### :sparkles: New Features
 - [`cbecddc`](https://github.com/samply/lens/commit/cbecddc6c5de6a71d966097efc8eebfc1a8538ef) - support backend measure replacement *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -46,3 +55,4 @@
 [0.0.5]: https://github.com/samply/lens/compare/0.0.3...0.0.5
 [0.0.6]: https://github.com/samply/lens/compare/0.0.5...0.0.6
 [0.1.0]: https://github.com/samply/lens/compare/0.0.6...0.1.0
+[0.1.1]: https://github.com/samply/lens/compare/0.1.0...0.1.1
