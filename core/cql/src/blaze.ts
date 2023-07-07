@@ -7,6 +7,7 @@ import {v4 as uuidv4} from "uuid";
 export class Blaze implements RequestTarget {
 
   private httpHeaders: HttpHeaders;
+  private withCredentials: boolean = false;
 
   private resultsSubject$: BehaviorSubject<Map<string, any>> = new BehaviorSubject<Map<string, any>>(new Map<string, any>());
   public results$: Observable<any> = this.resultsSubject$.asObservable();
@@ -37,10 +38,12 @@ export class Blaze implements RequestTarget {
 
     if (this.auth != "") {
       this.httpHeaders.append("Authorization", this.auth);
+      this.withCredentials = true;
     }
 
     const httpOptions = {
-      headers: this.httpHeaders
+      headers: this.httpHeaders,
+      withCredentials: this.withCredentials
     };
 
     this.isLoadingSubject$.next(true);
