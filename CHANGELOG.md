@@ -1,4 +1,9 @@
 # Changelog
+## [0.1.2] - 2023-07-13
+### :recycle: Refactors
+- [`4d546da`](https://github.com/samply/lens/commit/4d546da130b59c160dc35404b05aee1f683f4200) - re-arrange search buttons *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.1.1] - 2023-07-07
 ### :sparkles: New Features
 - [`d5c6566`](https://github.com/samply/lens/commit/d5c65667c0e936541e3df8c093ddf0557c56ff1f) - added with credentials flag for blaze *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -56,3 +61,4 @@
 [0.0.6]: https://github.com/samply/lens/compare/0.0.5...0.0.6
 [0.1.0]: https://github.com/samply/lens/compare/0.0.6...0.1.0
 [0.1.1]: https://github.com/samply/lens/compare/0.1.0...0.1.1
+[0.1.2]: https://github.com/samply/lens/compare/0.1.1...0.1.2
