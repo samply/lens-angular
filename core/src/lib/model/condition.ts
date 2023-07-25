@@ -43,7 +43,6 @@ export class Condition {
      (this.value.min == undefined && this.value.max instanceof Date) ||
      (this.value.min instanceof Date && this.value.max instanceof Date && this.value.min <= this.value.max)
     ) : false
-    console.log(`string: ${stringValid} stringArray: ${stringArrayValid} boolean: ${booleanValid} number: ${numberValid} numberMinMax: ${numberMinMaxValid} dateMinMax: ${dateMinMaxValid}`)
     return stringValid || stringArrayValid || booleanValid || numberValid || numberMinMaxValid || dateMinMaxValid;
   }
 

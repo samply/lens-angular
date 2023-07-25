@@ -57,6 +57,8 @@ export class CqlTranslatorService implements QueryTranslator {
     ["conditionLocalization", "exists from [Condition] C\nwhere C.bodySite.coding.code contains '{{C}}'"],
     ["conditionRangeDate", "exists from [Condition] C\nwhere year from C.onset between {{D1}} and {{D2}}"],
     ["conditionRangeAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) between {{D1}} and {{D2}}"],
+    ["conditionLowerThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) <= {{D2}}"],
+    ["conditionGreaterThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) >= {{D1}}"],
     //TODO Revert to first expression if https://github.com/samply/blaze/issues/808 is solved
     // ["observation", "exists from [Observation: Code '{{K}}' from {{A1}}] O\nwhere O.value.coding contains Code '{{C}}' from {{A2}}"],
     ["observation", "exists from [Observation: Code '{{K}}' from {{A1}}] O\nwhere O.value.coding.code contains '{{C}}'"],
@@ -175,8 +177,7 @@ export class CqlTranslatorService implements QueryTranslator {
               if(criterion.value instanceof Array<string>) {
                 if (criterion.value.length === 1) {
                   expression += " = '" + criterion.value[0] + "') and\n"
-                } else {
-                  expression += " in { "
+                } else {expression += " in { "
                   criterion.value.forEach((value: string) => {
                     expression += "'" + value + "', "
                   })
@@ -242,10 +243,21 @@ export class CqlTranslatorService implements QueryTranslator {
             }
 
             case "conditionRangeDate":
+
             case "conditionRangeAge": {
               if (typeof criterion.value == "object"
                 && !(criterion.value instanceof Array<string>)) {
-                expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, myCQL, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                if (criterion.type == "LOWER_THAN") {
+                  let lowerThanAgeTemplate = this.cqltemplate.get("conditionLowerThanAge")
+                  if (lowerThanAgeTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, lowerThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else if (criterion.type == "GREATER_THAN") {
+                  let greaterThanAgeTemplate = this.cqltemplate.get("conditionGreaterThanAge")
+                  if (greaterThanAgeTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, greaterThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else {
+                  expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, myCQL, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                }
               }
               break
             }
@@ -317,10 +329,10 @@ export class CqlTranslatorService implements QueryTranslator {
       const systemExpression = "codesystem " + alias[1] + ": '" + this.alias.get(alias[1]) + "'"
       if (!this.codesystems.includes(systemExpression)) {this.codesystems.push(systemExpression)}
     }
-    if (min) {
+    if (min != undefined) {
       cqlString = cqlString.replace(new RegExp("{{D1}}"), min.toString())
     }
-    if (max) {
+    if (max != undefined) {
       cqlString = cqlString.replace(new RegExp("{{D2}}"), max.toString())
     }
     return cqlString
