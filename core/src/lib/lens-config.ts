@@ -11,7 +11,9 @@ export class LensConfig {
       measure: Object
       cql: string,
     }[] = [],
-    public backendMeasureReplacement: boolean = true
+    public backendMeasureReplacement: boolean = true,
+    public cqlInitPopPlaceholder: string = "",
+    public cqlHeaderAddition: string = "",
   ) {
   }
 

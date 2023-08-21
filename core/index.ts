@@ -17,6 +17,8 @@ export * from './src/lib/model/category';
 export * from './src/lib/model/condition';
 export * from './src/lib/model/criteria';
 export * from './src/lib/model/measure';
+export * from './src/lib/model/abstract-measure'
+export * from './src/lib/model/unrestricted-measure'
 export * from './src/lib/model/operation';
 export * from './src/lib/model/query';
 export * from './src/lib/model/request-target';
