@@ -132,7 +132,6 @@ export class CqlTranslatorService implements QueryTranslator {
       // NOTE: We always need loinc, as the Deceased Stratifier is computed with it!!!
       "codesystem loinc: 'http://loinc.org'"
     ]
-    console.log(query)
     const cqlHeader = "library Retrieve\n" +
       "using FHIR version '4.0.0'\n" +
       "include FHIRHelpers version '4.0.0'\n" +
@@ -330,7 +329,6 @@ export class CqlTranslatorService implements QueryTranslator {
 
   getCodesystems(): string {
     let codesystems: string = ""
-    console.log(this.codesystems)
     this.codesystems.forEach((systems) => {
       codesystems += systems + "\n"
     })
