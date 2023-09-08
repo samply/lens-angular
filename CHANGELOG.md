@@ -1,4 +1,10 @@
 # Changelog
+## [0.1.4] - 2023-09-08
+### :bug: Bug Fixes
+- [`eb4dca4`](https://github.com/samply/lens/commit/eb4dca4b0ba42842054230df0c0fba939c5b7c17) - translate searches for numbers correctly *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`9918777`](https://github.com/samply/lens/commit/9918777348eefbb1b6a03320f843b10f7dcd3faa) - fixed numerical based date searches *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.1.2] - 2023-07-13
 ### :recycle: Refactors
 - [`4d546da`](https://github.com/samply/lens/commit/4d546da130b59c160dc35404b05aee1f683f4200) - re-arrange search buttons *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -62,3 +68,4 @@
 [0.1.0]: https://github.com/samply/lens/compare/0.0.6...0.1.0
 [0.1.1]: https://github.com/samply/lens/compare/0.1.0...0.1.1
 [0.1.2]: https://github.com/samply/lens/compare/0.1.1...0.1.2
+[0.1.4]: https://github.com/samply/lens/compare/0.1.3...0.1.4
