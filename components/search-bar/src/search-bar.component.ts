@@ -30,6 +30,8 @@ export class SearchBarComponent {
 
   suggestions: Array<{ label: string, value: string, items: Array<Condition | Operation> }> = [];
 
+  searchBarInput: any;
+
   @ViewChild(AutoComplete) searchBar!: AutoComplete
 
   constructor(
@@ -52,6 +54,7 @@ export class SearchBarComponent {
 
   public search(event: { originalEvent: Event, query: string }) {
 
+    this.searchBarInput = event.originalEvent.target
     if (event.query.length < 3) {
       this.currentSearchTerm = undefined;
       this.suggestions = [{ label: "", value: "Search will start with 3 inserted letters ...", items: [] }];
@@ -143,6 +146,9 @@ export class SearchBarComponent {
 
   onClearClick() {
     this.queryService.clear();
+    this.searchBar.inputValue = ''
+    this.currentSearchTerm = ''
+    this.searchBarInput.value = ''
   }
 
   removeCondition(condition: Condition) {
