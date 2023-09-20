@@ -9,6 +9,10 @@ import {
   LENS_CONFIG_TOKEN,
 } from '@samply/lens-core';
 
+import { formatDate } from '@angular/common';
+
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -87,6 +91,7 @@ export class CqlTranslatorService implements QueryTranslator {
 
   cqltemplate = new Map<string, string>([
     ['gender', 'Patient.gender'],
+    ["samplingDate", "exists from [Specimen] S\nwhere FHIRHelpers.ToDateTime(S.collection.collected) between {{D1}} and {{D2}}"],
     ['conditionValue', "exists [Condition: Code '{{C}}' from {{A1}}]"],
     [
       'conditionBodySite',
@@ -167,6 +172,7 @@ export class CqlTranslatorService implements QueryTranslator {
 
   criterionMap = new Map<string, { type: string; alias?: string[] }>([
     ['gender', { type: 'gender' }],
+    ['samplingDate', { type: 'samplingDate' }],
     ['diagnosis', { type: 'conditionValue', alias: ['icd10'] }],
     ['bodySite', { type: 'conditionBodySite', alias: ['bodySite'] }],
     [
@@ -282,10 +288,6 @@ export class CqlTranslatorService implements QueryTranslator {
       "codesystem SampleMaterialType: 'https://fhir.bbmri.de/CodeSystem/SampleMaterialType'\n" +
       '\n';
 
-    console.log('Addition');
-    console.log(this.configuration.cqlHeaderAddition);
-    //   cqlHeader + this.configuration.cqlHeaderAddition
-
     let singletons: string = this.configuration.backendMeasureReplacement
       ? this.configuration.cqlInitPopPlaceholder + '\n'
       : 'define InInitialPopulation:\n';
@@ -344,6 +346,31 @@ export class CqlTranslatorService implements QueryTranslator {
             case 'procedureResidualstatus':
             case 'medicationStatement':
             case 'specimen':
+            case 'samplingDate':
+              {
+                if (
+                  typeof criterion.value == 'object' &&
+                  !(criterion.value instanceof Array) &&
+                  (criterion.value.min instanceof Date &&
+                    criterion.value.max instanceof Date)
+                )
+                  {
+                  expression = expression.slice(0, -1);
+                  expression += " and ("
+
+                expression +=
+                this.substituteCQLExpressionDate(
+                  criterion.key,
+                  myCriterion.alias,
+                  myCQL,
+                  '',
+                  criterion.value.min as Date,
+                  criterion.value.max as Date
+                ) + ') and\n';
+                }
+                break;
+
+              }
             case 'hasSpecimen':
             case 'Organization':
             case 'observationMolecularMarkerName':
@@ -532,7 +559,6 @@ export class CqlTranslatorService implements QueryTranslator {
 
   getCodesystems(): string {
     let codesystems: string = '';
-    console.log(this.codesystems);
     this.codesystems.forEach((systems) => {
       codesystems += systems + '\n';
     });
@@ -541,4 +567,61 @@ export class CqlTranslatorService implements QueryTranslator {
     }
     return codesystems;
   }
+
+
+
+  substituteCQLExpressionDate(
+    key: string,
+    alias: string[] | undefined,
+    cql: string,
+    value?: string,
+    min?: Date,
+    max?: Date
+  ): string {
+    let cqlString: string;
+    if (value) {
+      cqlString = cql.replace(new RegExp('{{C}}'), value);
+      while (cqlString.search('{{C}}') != -1) {
+        cqlString = cqlString.replace(new RegExp('{{C}}'), value);
+      }
+    } else {
+      cqlString = cql;
+    }
+    cqlString = cqlString.replace(new RegExp('{{K}}'), key);
+    if (alias && alias[0]) {
+      cqlString = cqlString.replace(new RegExp('{{A1}}', 'g'), alias[0]);
+      if (alias[0] != 'icd10' && alias[0] != 'SampleMaterialType') {
+        const systemExpression =
+          'codesystem ' + alias[0] + ": '" + this.alias.get(alias[0]) + "'";
+        if (!this.codesystems.includes(systemExpression)) {
+          //this doesn't work
+          this.codesystems.push(systemExpression);
+        }
+      }
+    }
+    if (alias && alias[1]) {
+      cqlString = cqlString.replace(new RegExp('{{A2}}', 'g'), alias[1]);
+      const systemExpression =
+        'codesystem ' + alias[1] + ": '" + this.alias.get(alias[1]) + "'";
+      if (!this.codesystems.includes(systemExpression)) {
+        this.codesystems.push(systemExpression);
+      }
+    }
+    if (min) {
+      cqlString = cqlString.replace(
+        new RegExp('{{D1}}'),
+        '@' + formatDate(min, 'yyyy-MM-dd', 'en_US')
+      );
+    }
+    if (max) {
+      cqlString = cqlString.replace(
+        new RegExp('{{D2}}'),
+        '@' + formatDate(max, 'yyyy-MM-dd', 'en_US')
+      );
+    }
+    return cqlString;
+  }
+
+
 }
+

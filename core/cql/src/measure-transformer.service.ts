@@ -30,7 +30,6 @@ export class MeasureTransformerService implements ResultTransformer {
     results.forEach((data, requestTarget) => {
       let siteMeasures: Array<Measure> = []
       if (data != undefined && data.group instanceof Array) {
-        console.log(`Running through adding`)
         data.group.forEach((group: any) => {
           siteMeasures.push(this.transformToMeasure(group, requestTarget))
         })
