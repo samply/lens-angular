@@ -1,4 +1,14 @@
 # Changelog
+## [0.1.5] - 2023-09-21
+### :bug: Bug Fixes
+- [`654d9ed`](https://github.com/samply/lens/commit/654d9ed4222deb3fe249585654dce764269b2037) - merge string conditions in search-bar *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`6df364f`](https://github.com/samply/lens/commit/6df364fcb030ef07bf11399a1946b41e876ab4dd) - **search-bar**: clear free text with clear button *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`a0d9693`](https://github.com/samply/lens/commit/a0d96932d4b2c31478b3354a4852309af06a3d94) - ignore responses that state claimed requests *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :recycle: Refactors
+- [`f5a95ac`](https://github.com/samply/lens/commit/f5a95ac8a61677310270d98b72b291c1d41efbcc) - **search-bar**: disable search then free text is contained *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.1.4] - 2023-09-08
 ### :bug: Bug Fixes
 - [`eb4dca4`](https://github.com/samply/lens/commit/eb4dca4b0ba42842054230df0c0fba939c5b7c17) - translate searches for numbers correctly *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -69,3 +79,4 @@
 [0.1.1]: https://github.com/samply/lens/compare/0.1.0...0.1.1
 [0.1.2]: https://github.com/samply/lens/compare/0.1.1...0.1.2
 [0.1.4]: https://github.com/samply/lens/compare/0.1.3...0.1.4
+[0.1.5]: https://github.com/samply/lens/compare/0.1.4...0.1.5
