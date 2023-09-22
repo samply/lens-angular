@@ -18,11 +18,26 @@ export class Condition {
   }
 
   isEmpty(): boolean {
-    let stringEmpty = (this.value === '') || ((this.value instanceof Array) && (this.value.length == 0))
-    let booleanEmpty = (this.value === false);
-    let numberEmpty = (typeof this.value == "object" && !(this.value instanceof Array<string>)) ? (this.value.min == 0 && this.value.max == 0) : this.value == 0;
-    let dateEmpty = (typeof this.value == "object" && !(this.value instanceof Array<string>)) ? (this.value.min == undefined && this.value.max == undefined) : false
-    return stringEmpty || booleanEmpty || numberEmpty || dateEmpty;
+    switch(typeof this.value) {
+      case "string":
+        return (this.value === '');
+      case "boolean":
+        return (this.value === false);
+      case "number":
+        return this.value === 0;
+      case "object":
+        if (this.value === undefined || this.value === null) {
+          return true;
+        } else if (this.value instanceof Array<string>) {
+          return (this.value.length == 0);
+        } else if (this.value.min instanceof Date || this.value.max instanceof Date) {
+          return (this.value.min == undefined && this.value.max == undefined);
+        } else {
+          return (this.value.min === 0 && this.value.max === 0);
+        }
+      default:
+        return false
+    }
   }
 
   isValid(): boolean {
