@@ -1,32 +1,42 @@
 <p-card header="{{resultRenderer.title}}">
-    <p-table
-      [value]="tableData"
-      [paginator]="true"
-      [rows]="5"
-      [selection]="selectedSites"
-      responsiveLayout="scroll"
-      (selectionChange)="onSelectedSitesChanged($event)">
-        <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 4rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th>
-              <th i18n="column header for the name of a site">Sites</th>
-              <th i18n="column header for the number of patients">Patients</th>
-              <th i18n="column header for the number of specimen">Specimen</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-result>
-            <tr>
-              <td>
-                <p-tableCheckbox [value]="result"></p-tableCheckbox>
-              </td>
-              <td *ngIf="resultRenderer.headers.size == 0">{{result.site}}</td>
-              <td *ngIf="resultRenderer.headers.size > 0">{{(resultRenderer.headers.has(result.site)) ? resultRenderer.headers.get(result.site) : result.site}}</td>
-              <td>{{result.patients}}</td>
-              <td>{{result.samples}}</td>
-            </tr>
-        </ng-template>
-    </p-table>
-    <lens-negotiate-button *ngIf="resultRenderer.showNegotiationButton"></lens-negotiate-button>
+  <p-table [value]="mockData" [paginator]="true" [rows]="15" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th i18n="column header for the name of a site" colspan="2">Collections</th>
+        <th i18n="column header for the name of a site">Provider</th>
+        <th i18n="column header for the number of patients">Studies</th>
+        <th i18n="column header for the number of specimen">Subjects</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-result let-i="rowIndex">
+      <tr>
+        <td colspan="2">logo {{result.name}}</td>
+        <td>{{result.provider}} prov name</td>
+        <td>{{result.studies_count}}</td>
+        <td>{{result.subjects_count}}</td>
+        <td><button (click)="openRow(i)"><span class="expand-button-{{i}} pi pi-angle-down" ></span></button></td>
+      </tr>
+      <tr class="collapsable-wrapper collapsable-wrapper-{{i}}">
+        <td colspan="6" >
+          <div>
+            Age range: {{result.age_range.min}} to {{ result.age_range.max}}
+          </div>
+          <div>
+            Gender: {{result.gender}}
+          </div>
+          <div>
+            Modality: {{result.modality}}
+          </div>
+          <div>
+            Body parts: {{result.body_parts}}
+          </div>
+          <div>
+            Description: {{result.description}}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <lens-negotiate-button *ngIf="resultRenderer.showNegotiationButton"></lens-negotiate-button>
 </p-card>

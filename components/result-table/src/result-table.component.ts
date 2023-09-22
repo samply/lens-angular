@@ -13,6 +13,54 @@ import {
   styleUrls: ['./result-table.component.css'],
 })
 export class ResultTableComponent extends ResultRendererComponent {
+
+  public openRow(index: number) {
+    document.querySelector(`.collapsable-wrapper-${index}`)?.classList.toggle('open')
+    const button = document.querySelector(`.expand-button-${index}`)
+    if (button?.classList.contains('pi-angle-down')){
+      button.classList.remove('pi-angle-down')
+      button.classList.add('pi-angle-up')
+    } else {
+      button?.classList.remove('pi-angle-up')
+      button?.classList.add('pi-angle-down')
+    }
+  }
+
+  public mockData = [
+    {
+    name: "Collection Name",
+    id: "Collection ID",
+    studies_count: 12,//<result of query>,
+    subjects_count: 13,//<result_of_query>,
+    age_range: {min:50 , max: 70},
+    gender: ["male", "unknown"],
+    modality: ["MRI", "PET-CT"],
+    body_parts: ["RECTUM", "PROSTATE", "PELVIS"],
+    description: "Short description of collection"
+},
+    {
+    name: "Collection Name",
+    id: "Collection ID",
+    studies_count: 12,//<result of query>,
+    subjects_count: 13,//<result_of_query>,
+    age_range: {min:50 , max: 70},
+    gender: ["male", "unknown"],
+    modality: ["MRI", "PET-CT"],
+    body_parts: ["RECTUM", "PROSTATE", "PELVIS"],
+    description: "Short description of collection"
+},
+    {
+    name: "Collection Name",
+    id: "Collection ID",
+    studies_count: 12,//<result of query>,
+    subjects_count: 13,//<result_of_query>,
+    age_range: {min:50 , max: 70},
+    gender: ["male", "unknown"],
+    modality: ["MRI", "PET-CT"],
+    body_parts: ["RECTUM", "PROSTATE", "PELVIS"],
+    description: "Short description of collection"
+},
+]
   public tableData: Array<{site: string, patients: number, samples: number, diagnosis: number}> = [];
 
   public selectedSites: Array<{site: string, patients: number, samples: number, diagnosis: number}> = [];

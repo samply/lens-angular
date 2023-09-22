@@ -1,4 +1,4 @@
-p-card {
+/* p-card {
   display: grid;
 }
 
@@ -57,4 +57,53 @@ p-card {
     .p-paginator-page.p-highlight {
     font-size: 1.3rem;
   }
+} */
+
+:host ::ng-deep .p-card-body {
+  display: block;
+}
+
+::ng-deep p-card, ::ng-deep p-card-body, ::ng-deep p-card-content {
+  height: 100%;
+}
+
+:host ::ng-deep .p-paginator button {
+ color: var(--color-blue);
+ height: 1.5rem;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+  color: white;
+  box-shadow: none;
+  cursor: auto !important;
+  height: 1.5rem;
+}
+
+.collapsable-wrapper {
+  column-span: all;
+  display: none;
+  font-size: 0.9rem;
+  
+}
+
+.collapsable-wrapper td{
+  border-width: 0px;
+  padding: 0 40px 20px;
+}
+.collapsable-wrapper td > div {
+  padding: 0 5px;
+  border-left: solid 1px #dee2e6;
+}
+
+.open {
+  display: table-row;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
