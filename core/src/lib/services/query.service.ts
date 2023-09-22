@@ -93,6 +93,20 @@ export class QueryService {
     this.querySubject$.next(new Query(this.querySubject$.value.ast))
   }
 
+  public async download() {
+    let queryString = JSON.stringify(this.querySubject$.value.ast, null, 2);
+    let measureString = JSON.stringify(this.transformedResultsSubject$.value, null, 2);
+    let responseString = `${queryString}\n\n${measureString}`;
+    let uriContent = URL.createObjectURL(new Blob([responseString], {type : 'text/plain'}))
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', uriContent);
+    link.setAttribute('download', `lens-query-${this.querySubject$.value.id}.txt`);
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+  }
+
   public clear() {
     this.querySubject$.next(
       new Query(
