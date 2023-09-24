@@ -90,7 +90,7 @@
 
 .collapsable-wrapper td{
   border-width: 0px;
-  padding: 0 40px 20px;
+  padding: 20px 40px 20px;
 }
 .collapsable-wrapper td > div {
   padding: 0 5px;
@@ -106,4 +106,31 @@ button {
   border: none;
   cursor: pointer;
   outline: none;
+}
+
+.toggle {
+  padding-left: 0!important;
+  padding-right: 0!important;
+}
+
+:host ::ng-deep td:not(.subtable-wrapper, .toggle),
+:host ::ng-deep th:not(.subtable-wrapper, .toggle)
+{
+  width:30%
+}
+:host ::ng-deep th:not(.subtable-wrapper, .toggle){
+  padding-left: 0!important;
+  padding-right: 0!important;
+  text-align: left;
+  
+}
+
+:host ::ng-deep, td:not(.subtable-wrapper){
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px 0;
+}
+
+.table-divider {
+  border: none!important;
+  padding: 0!important;
 }

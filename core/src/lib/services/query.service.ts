@@ -68,7 +68,9 @@ export class QueryService {
   public async send() {
     // NOTE: In addition to this reset, each request target implementation needs to reset their results (see blaze.ts and beam.ts)
     this.resultsSubject$.next(new Map<string, any>())
+    console.log(this.querySubject$.value.ast)
     let transformedQuery = this.queryTranslator.transform(this.querySubject$.value.ast);
+    console.log(transformedQuery)
     this.querySubject$.value.tasks = await Promise.all(
       this.configuration.requestTargets
       // create instance of requestTarget
