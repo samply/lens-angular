@@ -279,10 +279,16 @@ export class CqlTranslatorService implements QueryTranslator {
     this.criteria = this.catalogueService.getCriteria('diagnosis');
     this.codesystems = [
       // NOTE: We always need loinc, as the Deceased Stratifier is computed with it!!!
+<<<<<<< HEAD
       "codesystem loinc: 'http://loinc.org'",
     ];
     const cqlHeader =
       'library Retrieve\n' +
+=======
+      "codesystem loinc: 'http://loinc.org'"
+    ]
+    const cqlHeader = "library Retrieve\n" +
+>>>>>>> 7ac3f30 (build: release version 0.1.3)
       "using FHIR version '4.0.0'\n" +
       "include FHIRHelpers version '4.0.0'\n" +
       "codesystem SampleMaterialType: 'https://fhir.bbmri.de/CodeSystem/SampleMaterialType'\n" +
@@ -558,7 +564,11 @@ export class CqlTranslatorService implements QueryTranslator {
   }
 
   getCodesystems(): string {
+<<<<<<< HEAD
     let codesystems: string = '';
+=======
+    let codesystems: string = ""
+>>>>>>> 7ac3f30 (build: release version 0.1.3)
     this.codesystems.forEach((systems) => {
       codesystems += systems + '\n';
     });

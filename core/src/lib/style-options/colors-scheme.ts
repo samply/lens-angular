@@ -19,7 +19,6 @@ export class ColorScheme {
 
     public setPrimaryButtonColors(primaryButtonColors: primaryButtonColors) {
         ColorScheme.primaryButtonColors = primaryButtonColors
-        console.log(ColorScheme.primaryButtonColors)
     }
 
 
