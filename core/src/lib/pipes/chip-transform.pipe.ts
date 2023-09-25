@@ -14,55 +14,67 @@ export class ChipTransformPipe implements PipeTransform {
   ) {
   }
 
-  transform(value: Condition | Operation): string {
-    if (value instanceof Condition) {
-      switch (typeof value.value) {
-        case "string":
-          return value.value;
-        case "object":
-          if (value.value instanceof Array<string>) {
-            return value.value.toString();
+  transform(selection: Condition | Operation): string {
+    let criteria = this.catalogueService.getCriteria(selection.key);
+    switch (criteria.type) {
+      case "string":
+        if (selection instanceof Condition && selection.value instanceof Array<string>) {
+          let valueDefinitions = criteria.values?.filter(value => (<Array<string>> selection.value).indexOf(value.key) !== -1);
+          if (valueDefinitions) {
+            return valueDefinitions.map(selectedValue => selectedValue.display_short).toString()
+          } else {
+            return selection.value.toString();
           }
-          if (typeof value.value.min == "number" && typeof value.value.max == "number") {
-            if (value.type == "LOWER_THAN") {
-              return `${this.prettifyKey(value.key)} \u{2264} ${value.value.max}`
-            } else if (value.type == "GREATER_THAN") {
-              return `${value.value.min} \u{2264} ${this.prettifyKey(value.key)}`
-            } else if (value.type == "BETWEEN") {
-              return `${value.value.min} \u{2264} ${this.prettifyKey(value.key)} \u{2264} ${value.value.max}`
-            }
-          } else if (value.value.min instanceof Date || value.value.max instanceof Date) {
-            if (value.type == "LOWER_THAN") {
-              return `${this.prettifyKey(value.key)} \u{2264} ${(<Date> value.value.max).toLocaleDateString()}`
-            } else if (value.type == "GREATER_THAN") {
-              return `${(<Date> value.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(value.key)}`
-            } else if (value.type == "BETWEEN") {
-              return `${(<Date> value.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(value.key)} \u{2264} ${(<Date> value.value.max).toLocaleDateString()}`
-            }
+        } else if (selection instanceof Condition && typeof selection.value === "string") {
+          let valueDefinitions = criteria.values?.filter(value => value.key === selection.value)
+          if (valueDefinitions) {
+            return valueDefinitions[0].display_short
+          } else {
+            return selection.value
           }
-          break
-        case "number":
-          return `${this.prettifyKey(value.key)} = ${value.value}`
-        case "boolean":
-          let valuesCriteria = this.catalogueService.getCriteria(value.key);
-          return valuesCriteria.displayName.de;
-        case "undefined":
-          return this.prettifyKey(value.key);
-        default:
-          break;
-      }
-    } else {
-      // if the value is an operation
-      let valuesCriteria = this.catalogueService.getCriteria(value.key);
-      if (valuesCriteria.type == 'predefined') {
-        let operationDisplay = this.prettifyPredefinedOperation(value, valuesCriteria)
-        return (operationDisplay != undefined && operationDisplay != "") ? operationDisplay : value.children.map(child => child.key).join(", ");
-      } else {
-        let operationDisplay = this.prettifyOperation(value);
-        return (operationDisplay != undefined && operationDisplay != "") ? operationDisplay : value.children.map(child => child.key).join(", ");
-      }
+        }
+        break;
+      case "number":
+        if (selection instanceof Condition && selection.value instanceof Object && !(selection.value instanceof Array<string>)) {
+          if (selection.type == "LOWER_THAN") {
+            return `${this.prettifyKey(selection.key)} \u{2264} ${selection.value.max}`
+          } else if (selection.type == "GREATER_THAN") {
+            return `${selection.value.min} \u{2264} ${this.prettifyKey(selection.key)}`
+          } else if (selection.type == "BETWEEN") {
+            return `${selection.value.min} \u{2264} ${this.prettifyKey(selection.key)} \u{2264} ${selection.value.max}`
+          }
+        } else {
+          return `${this.prettifyKey(selection.key)} = ${(<Condition> selection).value}`
+        }
+        break;
+      case "boolean":
+        return criteria.displayName.de;
+      case "date":
+        if (
+          selection instanceof Condition && selection.value instanceof Object && !(selection.value instanceof Array<string>)
+            && (selection.value.min instanceof Date || selection.value.max instanceof Date)) {
+          if (selection.type == "LOWER_THAN") {
+            return `${this.prettifyKey(selection.key)} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
+          } else if (selection.type == "GREATER_THAN") {
+            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(selection.key)}`
+          } else if (selection.type == "BETWEEN") {
+            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(selection.key)} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
+          } else {
+            return `${this.prettifyKey(selection.key)} = ${selection.value}`
+          }
+        }
+        break;
+      case "predefined":
+        let operationDisplay = this.prettifyPredefinedOperation(<Operation> selection, criteria)
+        return (operationDisplay != undefined && operationDisplay != "") ? operationDisplay : (<Operation> selection).children.map(child => child.key).join(", ");
     }
-    return (value.key) ? this.prettifyKey(value.key) : "undefined";
+    // Test
+    if (selection instanceof Operation) {
+      let operationDisplay = this.prettifyOperation(selection);
+      return (operationDisplay != undefined && operationDisplay != "") ? operationDisplay : selection.children.map(child => child.key).join(", ");
+    } else {
+      return (selection.key) ? this.prettifyKey(selection.key) : "undefined";
+    }
   }
 
   private prettifyOperation(value: Operation) {
@@ -80,15 +92,15 @@ export class ChipTransformPipe implements PipeTransform {
     let operationsStringUntilNow = "";
     return criteria
       .values?.filter(childValue => value.children.some(child => child.key == childValue.key))
-      .sort((a,b) => a.de.localeCompare(b.de))
+      .sort((a,b) => a.display_short.localeCompare(b.de))
       .map((childValue, childIndex) => {
         if (childIndex == 0 ||
-             operationsStringUntilNow.indexOf(childValue.de.split(" - ")[0]) == -1) {
-          operationsStringUntilNow += childValue.de + ", "
-          return childValue.de
+             operationsStringUntilNow.indexOf(childValue.display_short.split(" - ")[0]) == -1) {
+          operationsStringUntilNow += childValue.display_short + ", "
+          return childValue.display_short
         } else {
-          operationsStringUntilNow += childValue.de.split(" - ")[1] + ", "
-          return childValue.de.split(" - ")[1]
+          operationsStringUntilNow += childValue.display_short.split(" - ")[1] + ", "
+          return childValue.display_short.split(" - ")[1]
         }
       })
       .join(", ");

@@ -14,7 +14,7 @@ export class Criteria {
     public type: "string" | "number" | "boolean" | "date" | "predefined",
     public system: string,
     public allowedConditionTypes: Array<ConditionTypes> = [],
-    public values?: Array<{key: string, de: string, en: string}> | Array<Operation>
+    public values?: Array<{key: string, de: string, en: string, display_short: string}> | Array<Operation>
   ) {
   }
 
