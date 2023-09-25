@@ -46,7 +46,7 @@ export class Beam implements RequestTarget {
   ) {
   }
 
-  async send(query: string, measures: Object[]): Promise<string> {
+  async send_old(query: string, measures: Object[]): Promise<string> {
     console.debug(`send running withCredentials: ${this.withCredentials}`)
     this.resultSubject$.next(new Map<string, any>())
 
@@ -79,6 +79,31 @@ export class Beam implements RequestTarget {
     return this.currentTask.id
   }
 
+  async send(query: string, measures: Object[]): Promise<string> {
+    console.debug(`send ast running withCredentials: ${this.withCredentials}`)
+    this.resultSubject$.next(new Map<string, any>())
+
+    let encodedQuery = btoa(unescape(encodeURIComponent(query)));
+    let data = {lang: "ast", query: encodedQuery};
+
+    this.currentTask = await firstValueFrom(
+      this.client.post<BeamTask>(
+        this.url.toString() + "tasks?sites=" + this.sites.toString(),
+        Buffer.from(JSON.stringify(data)).toString('base64').trimEnd(),
+        {
+          withCredentials: this.withCredentials
+        }
+      ).pipe(catchError(err => {
+        console.error(`Received error then creating a new Beam Task through spot!`)
+        return throwError(err);
+      }))
+    );
+    console.log(`Created new Beam Task with id ${this.currentTask.id} at ${this.key}`)
+
+    this.queryBackendForResults(this.currentTask.id);
+
+    return this.currentTask.id
+  }
   private async queryBackendForResults(taskId: string) {
     this.isLoadingSubject$.next(true);
 

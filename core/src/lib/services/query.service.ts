@@ -82,7 +82,7 @@ export class QueryService {
         return {
           key: requestTarget.key,
           task: await requestTarget.send(
-            transformedQuery,
+            JSON.stringify(this.querySubject$.value.ast),
             this.configuration.resultRequests.map(request => request.measure)
           )
         }
