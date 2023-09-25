@@ -84,7 +84,7 @@ export class Beam implements RequestTarget {
     console.log(`Requesting results from ${this.sites.length} sites through ${this.key}`)
     for (let i = 1; i <= this.sites.length; i++) {
       let retryCounter = 0;
-      let response = await firstValueFrom(this.client.get<Array<BeamResult>>(
+      let response: HttpResponse<BeamResult[]> = await firstValueFrom(this.client.get<Array<BeamResult>>(
         this.url.toString() + `tasks/${this.currentTask?.id}?wait_count=${i}`,
         {
           observe: "response",
@@ -116,12 +116,15 @@ export class Beam implements RequestTarget {
       );
       if (response.status == 200) {
         console.log(`Received new partial result for query ${this.currentTask?.id} with results from ${i} sites.`)
-        i = (response.body) ? response.body.length : i
-        let receivedTask = (response.body != undefined) ? response.body[0].task : "";
-        if (receivedTask.indexOf(this.currentTask?.id) != -1) {
-          this.resultsReceived(response)
-        } else {
-          console.warn(`Throwing away response for old query ${receivedTask} in favor of new query ${this.currentTask?.id}`)
+        if (response.body !== undefined && response.body !== null) {
+          i = response.body
+            .filter(test => test.status !== "claimed").length;
+          let receivedTask = response.body[0].task;
+          if (this.currentTask !== undefined && receivedTask.indexOf(this.currentTask.id) !== -1) {
+            this.resultsReceived(response)
+          } else {
+            console.warn(`Throwing away response for old query ${receivedTask} in favor of new query ${this.currentTask?.id}`)
+          }
         }
       }
       // add a little delay between requests so diagrams won't change to fast
@@ -139,6 +142,9 @@ export class Beam implements RequestTarget {
         if (result.status == "permfailed" || result.status == "tempfailed") {
           console.warn(`Site ${result.from} returned status ${result.status}. Therefore ignoring their result!`)
           return false;
+        } else if (result.status == "claimed") {
+          console.info(`Site ${result.from} claimed the request`)
+          return false
         } else {
           return true;
         }

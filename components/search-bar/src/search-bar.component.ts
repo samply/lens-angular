@@ -8,6 +8,7 @@ import {
   ChipTransformPipe,
   CatalogueService,
   Condition,
+  ConditionTypes,
   Criteria,
   Operation
 } from '@samply/lens-core';
@@ -27,18 +28,20 @@ export class SearchBarComponent {
 
   currentSearchTerm?: any
 
-  suggestions: Array<{label: string, value: string, items: Array<Condition | Operation>}>= [];
+  suggestions: Array<{ label: string, value: string, items: Array<Condition | Operation> }> = [];
+
+  searchBarInput: any;
 
   @ViewChild(AutoComplete) searchBar!: AutoComplete
 
   constructor(
     public queryService: QueryService,
     public catalogueService: CatalogueService,
-    private chipTransform: ChipTransformPipe
+    private chipTransform: ChipTransformPipe,
   ) {
     // Update query info string based on changes
     queryService.query$.subscribe(value => {
-      if(!queryService.isEmpty()) {
+      if (!queryService.isEmpty()) {
         this.queryHelpString = value.ast.toString()
       }
     })
@@ -50,12 +53,15 @@ export class SearchBarComponent {
 
 
   public search(event: { originalEvent: Event, query: string }) {
-    if (event.query.length < 3){
+
+    this.searchBarInput = event.originalEvent.target
+    if (event.query.length < 3) {
       this.currentSearchTerm = undefined;
-      this.suggestions = [{label: "", value: "Search will start with 3 inserted letters ...", items: []}];
+      this.suggestions = [{ label: "", value: "Search will start with 3 inserted letters ...", items: [] }];
     } else {
       this.currentSearchTerm = event.query;
       let criterias: Array<Criteria> = this.catalogueService.getCriterias()
+
       this.suggestions = criterias.filter(criteria => {
         let queryInUppercase = event.query.toUpperCase();
         return criteria.key.toUpperCase().indexOf(queryInUppercase) != -1 ||
@@ -65,7 +71,7 @@ export class SearchBarComponent {
               || item.de.toUpperCase().indexOf(queryInUppercase) != -1
               || item.en.toUpperCase().indexOf(queryInUppercase) != -1
           }));
-      }).slice(0,20).flatMap(criteria => {
+      }).slice(0, 20).flatMap(criteria => {
         let criteriaSuggestions: Array<Condition | Operation> = []
         if (criteria.values != undefined) {
           criteria.values.forEach(value => {
@@ -81,11 +87,19 @@ export class SearchBarComponent {
               let queryInUppercase = event.query.toUpperCase()
               if (value.key.toUpperCase().indexOf(queryInUppercase) != -1
                 || value.de.toUpperCase().indexOf(queryInUppercase) != -1
-                || value.en.toUpperCase().indexOf(queryInUppercase) != -1) {
+                || value.en.toUpperCase().indexOf(queryInUppercase) != -1
+              ) {
+
+                // not clear why only 'IN' is needed to be checked here
+                // should not work for other cases as well like this, but it does
+                // for example 'CONTAINS' is not checked here, but it works somehow
+                let conditionType: ConditionTypes = 'EQUALS'
+                if (criteria.allowedConditionTypes.includes('IN')) conditionType = 'IN'
+
                 criteriaSuggestions.push(
                   new Condition(
                     criteria.key,
-                    criteria.key === "gender" ? "IN" : "EQUALS",
+                    conditionType,
                     criteria.system,
                     value.key,
                     value.de
@@ -93,11 +107,38 @@ export class SearchBarComponent {
               }
             }
           })
+          criteriaSuggestions = this.addPercentageSignAsGroupingSymbol(criteriaSuggestions, event.query)
         }
-        return {label: criteria.displayName.de, value: criteria.key, items: criteriaSuggestions}
+        return { label: criteria.displayName.de, value: criteria.key, items: criteriaSuggestions }
       })
     }
   }
+
+
+  addPercentageSignAsGroupingSymbol(cirteriaSuggestions: any, query: any): Array<Condition | Operation> {
+    const regexForICD10SuperGroupWithSubgroups = /[a-zA-Z][0-9][0-9]/g;
+
+    if (
+      !query.match(regexForICD10SuperGroupWithSubgroups) ||
+      cirteriaSuggestions.length <= 1 ||
+      cirteriaSuggestions[0].value === undefined
+    ) {
+      return cirteriaSuggestions
+    }
+
+    const baseCode = cirteriaSuggestions[0].value.split(".")[0]
+
+    const wildcard: Condition = new Condition(
+      "diagnosis",
+      "CONTAINS",
+      "http://fhir.de/CodeSystem/dimdi/icd-10-gm",
+      baseCode + ".%",
+      "Get all subcodes for " + baseCode,
+    )
+
+    return [wildcard, ...cirteriaSuggestions]
+  }
+
 
   onSearchClick() {
     this.queryService.send()
@@ -105,6 +146,9 @@ export class SearchBarComponent {
 
   onClearClick() {
     this.queryService.clear();
+    this.searchBar.inputValue = ''
+    this.currentSearchTerm = ''
+    this.searchBarInput.value = ''
   }
 
   removeCondition(condition: Condition) {
@@ -119,14 +163,55 @@ export class SearchBarComponent {
     return item instanceof Operation;
   }
 
-  suggestionSelected($event: Condition | Operation) {
-    let existingValue = this.queryService.read($event.key);
-    console.log(existingValue)
-    if (existingValue) {
-      this.queryService.update($event)
-    } else {
+
+  suggestionSelected($event: Condition) {
+    // if an operation or condition with the key exists, add the new value to its children with an OR, otherwise create a new condition
+
+    const existingValue = this.queryService.read($event.key);
+
+    if (!existingValue) {
+      if ($event.type === 'IN')
+        $event.value = [`${$event.value}`]
       this.queryService.create($event)
+      return
     }
+
+    if ((existingValue instanceof Condition)) {
+
+      if (existingValue.type === 'IN' && (Array.isArray(existingValue.value) || typeof existingValue.value === 'string')) {
+        // add to the 'IN' String Array
+        const newValue: string[] = Array.isArray(existingValue.value)
+          ? [...existingValue.value, `${$event.value}`]
+          : [existingValue.value, `${$event.value}`]
+
+        $event = new Condition(
+          $event.key,
+          $event.type,
+          $event.system,
+          newValue,
+          $event.de
+        );
+
+        this.queryService.update($event)
+
+      } else {
+        // make new operation with existing value and new value
+        const newOperation: Operation = new Operation(
+          "OR",
+          [existingValue, $event],
+          $event.key,
+        )
+        this.queryService.update(newOperation)
+      }
+      return
+    }
+    // add to existing operation
+    const updatedOperation = new Operation(
+      existingValue.operand,
+      [...existingValue.children, $event],
+      existingValue.key,
+    )
+    this.queryService.update(updatedOperation)
   }
 
   /** HACK: This will be executed really often, for example on mouse movement.
@@ -135,10 +220,10 @@ export class SearchBarComponent {
     return this.chipTransform.transform(value);
   }
 
-  public onMouseEnter(element: HTMLElement) : void {
+  public onMouseEnter(element: HTMLElement): void {
     element.style.opacity = "0.8";
   }
-  public onMouseLeave(element: HTMLElement) : void {
+  public onMouseLeave(element: HTMLElement): void {
     element.style.opacity = "1";
   }
 
