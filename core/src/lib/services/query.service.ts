@@ -68,7 +68,7 @@ export class QueryService {
   public async send() {
     // NOTE: In addition to this reset, each request target implementation needs to reset their results (see blaze.ts and beam.ts)
     this.resultsSubject$.next(new Map<string, any>())
-    console.log(this.querySubject$.value.ast)
+    console.log(this.querySubject$.value)
     let transformedQuery = this.queryTranslator.transform(this.querySubject$.value.ast);
     console.log(transformedQuery)
     this.querySubject$.value.tasks = await Promise.all(
@@ -82,7 +82,7 @@ export class QueryService {
         return {
           key: requestTarget.key,
           task: await requestTarget.send(
-            JSON.stringify(this.querySubject$.value.ast),
+            JSON.stringify(this.querySubject$.value),
             this.configuration.resultRequests.map(request => request.measure)
           )
         }
