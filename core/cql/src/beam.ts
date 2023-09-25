@@ -49,6 +49,10 @@ export class Beam implements RequestTarget {
   async send(query: string, measures: Object[]): Promise<string> {
     this.resultSubject$.next(new Map<string, any>())
 
+    console.log("Send")
+    console.log(query)
+    console.log(measures)
+
     let baseCQL = btoa(unescape(encodeURIComponent(query)));
 
     let libUUID = uuidv4();
