@@ -15,9 +15,19 @@ export class EucaimResultTransformerService {
     measures.push(
       this.generateCollectionMeasure(collections)
     )
+    measures.push(
+      this.generatePatientsMeasure(collections)
+    )
     return measures;
   }
 
+  generatePatientsMeasure(collections: Array<any>): Measure {
+    return new Measure(
+      "patients",
+      collections.reduce((sum, collection) => sum + collection.subjects_count, 0),
+      []
+    )
+  }
   generateCollectionMeasure(collections: Array<any>): Measure {
     let measurePopulation = 0;
     const studiesStratifiers: {key: string, population: number}[] = []
