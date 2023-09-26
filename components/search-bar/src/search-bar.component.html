@@ -40,8 +40,6 @@
       <span *ngIf="!queryService.isEmpty()">{{queryHelpString}}</span>
     </p-overlayPanel>
   </button>
-  <button pButton pRipple icon="pi pi-download" label="Download"
-    (click)="this.queryService.download()"></button>
   <button pButton pRipple #searchButton icon="pi pi-search" class="p-button-success"
       [disabled]="searchBar.inputValue"
       (mouseenter)="onMouseEnter(searchButton)" (mouseleave)="onMouseLeave(searchButton)" (click)="onSearchClick()"

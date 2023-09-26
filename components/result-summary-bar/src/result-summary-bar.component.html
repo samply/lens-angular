@@ -5,4 +5,5 @@
           label="{{translateKey(result.key)}}: {{result.population}}">
   </p-chip>
 </div>
-<lens-negotiate-button *ngIf="resultRenderer.showNegotiationButton"></lens-negotiate-button>
+<button pButton pRipple icon="pi pi-download" label="Download"
+    (click)="this.queryService.download()"></button>
