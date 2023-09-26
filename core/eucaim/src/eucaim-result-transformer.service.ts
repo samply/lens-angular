@@ -11,7 +11,6 @@ export class EucaimResultTransformerService {
   transform(results: Map<string, any>): Array<Measure>{
     const measures: Array<Measure> = [];
     const collections = [...results].map(([name, value]) => value).flatMap(value => value.collections);
-    console.log(collections);
     measures.push(
       this.generateCollectionMeasure(collections)
     )
