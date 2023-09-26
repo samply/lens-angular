@@ -15,8 +15,8 @@
         <td colspan="6" class="table-divider">
       <table *ngFor="let result of results.collections, index as i" [style.width]="'100%'">
         <tr>
-          <td colspan="2"><img src="data:image/png;base64, {{results.icon}}" alt=""> {{result.name}}</td>
-          <td>{{results.provider}}</td>
+          <td>{{result.name}}</td>
+          <td colspan="2"><img src="data:image/png;base64, {{results.provider_icon}}" alt=""> {{results.provider}}</td>
           <td [style.width]="'15%'">{{result.studies_count}}</td>
           <td [style.width]="'15%'">{{result.subjects_count}}</td>
           <td class="toggle"><button (click)="openRow(i)"><span class="expand-button-{{i}} pi pi-angle-down" ></span></button></td>
