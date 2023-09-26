@@ -43,13 +43,17 @@ export class StringConditionBuilderComponent implements OnInit {
           this.criteria.key,
           this.criteria.allowedConditionTypes[0],
           this.criteria.system,
-          (this.criteria.allowedConditionTypes[0] == "EQUALS") ? "" : []
+          (this.criteria.allowedConditionTypes[0] == "EQUALS") ? "" : [],
         )
       }
     })
   }
 
-  onChange(){
+  onChange(display_short?: string){
+    console.log(`This code is executed`)
+    if (display_short) {
+      this.currentCondition.display_short = display_short
+    }
     if (this.currentCondition.isEmpty()) {
       this.queryService.delete(this.currentCondition);
     } else if (this.queryService.read(this.currentCondition.key)) {
@@ -79,8 +83,8 @@ export class StringConditionBuilderComponent implements OnInit {
     }
   }
 
-  computeWildcardSuggestions(currentSuggestions: Array<{key: string, de: string, en: string}>, currentSearch: string): Array<{key: string, de: string, en: string}> {
-    let wildcardSuggestions: Array<{key: string, de: string, en: string}> = [];
+  computeWildcardSuggestions(currentSuggestions: Array<{key: string, de: string, en: string}>, currentSearch: string): Array<{key: string, de: string, en: string, display_short: string}> {
+    let wildcardSuggestions: Array<{key: string, de: string, en: string, display_short: string}> = [];
     currentSuggestions.forEach(child => {
       if (!wildcardSuggestions.some(
         code => code.key.startsWith(child.key.split(".")[0])
@@ -88,7 +92,8 @@ export class StringConditionBuilderComponent implements OnInit {
         wildcardSuggestions.push({
           key: child.key,
           de: "",
-          en: ""
+          en: "",
+          display_short: "",
         })
       }
     })
@@ -116,18 +121,22 @@ export class StringConditionBuilderComponent implements OnInit {
             this.criteria.key,
             this.currentCondition.type,
             this.currentCondition.system,
-            this.currentCondition.value
+            this.currentCondition.value,
+            'foo',
+            'bar',
           ),
           new Condition(
             this.criteria.key,
             this.criteria.allowedConditionTypes[0],
             this.criteria.system,
-            (this.criteria.allowedConditionTypes[0] == "EQUALS") ? "" : []
+            (this.criteria.allowedConditionTypes[0] == "EQUALS") ? "" : [],
+            'bar',
+            'foo',
           )
         ],
         this.criteria.key,
         this.criteria.displayName.de,
-        this.criteria.displayName.en
+        this.criteria.displayName.en,
       )
     } else {
       this.currentCondition?.children.push(

@@ -13,7 +13,8 @@ export class Condition {
     public type: ConditionTypes = "EQUALS",
     public system?: string,
     public value?: string | string[] | boolean | number | {min: number, max: number} | {min: Date | undefined, max: Date | undefined},
-    public de?: string
+    public de?: string,
+    public display_short: string = "",
   ) {
   }
 
