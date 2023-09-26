@@ -50,15 +50,9 @@ export class Beam implements RequestTarget {
     console.debug(`send running withCredentials: ${this.withCredentials}`)
     this.resultSubject$.next(new Map<string, any>())
 
-    let baseCQL = btoa(unescape(encodeURIComponent(query)));
+    let encodedQuery = btoa(unescape(encodeURIComponent(query)));
 
-    let libUUID = uuidv4();
-    let library = Blaze.buildLibrary(libUUID, baseCQL);
-
-    let meaUUID = uuidv4();
-    let measure = Blaze.buildMeasurement(libUUID, meaUUID, measures);
-
-    let data = {lang: "cql", lib: library, measure: measure};
+    let data = {lang: "ast", query: encodedQuery};
 
     this.currentTask = await firstValueFrom(
       this.client.post<BeamTask>(
