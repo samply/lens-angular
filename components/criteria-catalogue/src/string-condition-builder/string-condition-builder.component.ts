@@ -50,7 +50,6 @@ export class StringConditionBuilderComponent implements OnInit {
   }
 
   onChange(display_short?: string){
-    console.log(`This code is executed`)
     if (display_short) {
       this.currentCondition.display_short = display_short
     }
