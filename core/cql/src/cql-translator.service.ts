@@ -61,6 +61,12 @@ export class CqlTranslatorService implements QueryTranslator {
     ["conditionRangeAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) between {{D1}} and {{D2}}"],
     ["conditionLowerThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) <= {{D2}}"],
     ["conditionGreaterThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) >= {{D1}}"],
+    ["primaryConditionRangeDate", "year from PrimaryDiagnosis.onset between {{D1}} and {{D2}}"],
+    ["primaryConditionLowerThanDate", "year from PrimaryDiagnosis.onset <= {{D2}}"],
+    ["primaryConditionGreaterThanDate", "year from PrimaryDiagnosis.onset >= {{D1}}"],
+    ["primaryConditionRangeAge", "AgeInYearsAt(FHIRHelpers.ToDateTime(PrimaryDiagnosis.onset)) between {{D1}} and {{D2}}"],
+    ["primaryConditionLowerThanAge", "AgeInYearsAt(FHIRHelpers.ToDateTime(PrimaryDiagnosis.onset)) <= {{D2}}"],
+    ["primaryConditionGreaterThanAge", "AgeInYearsAt(FHIRHelpers.ToDateTime(PrimaryDiagnosis.onset)) >= {{D1}}"],
     //TODO Revert to first expression if https://github.com/samply/blaze/issues/808 is solved
     // ["observation", "exists from [Observation: Code '{{K}}' from {{A1}}] O\nwhere O.value.coding contains Code '{{C}}' from {{A2}}"],
     ["observation", "exists from [Observation: Code '{{K}}' from {{A1}}] O\nwhere O.value.coding.code contains '{{C}}'"],
@@ -98,9 +104,11 @@ export class CqlTranslatorService implements QueryTranslator {
     ["KM", {type: "medicationStatement", alias: ["Therapieart"]}],              //Knochenmarktransplantation
     ["59847-4", {type: "observation", alias: ["loinc", "morph"]}],      //Morphologie
     ["year_of_diagnosis", {type: "conditionRangeDate"}],
+    ["year_of_primary_diagnosis", {type: "primaryConditionRangeDate"}],
     ["sample_kind", {type: "specimen", alias: ["specimentype"]}],
     ["pat_with_samples", {type: "hasSpecimen"}],
     ["age_at_diagnosis", {type: "conditionRangeAge"}],
+    ["age_at_primary_diagnosis", {type: "primaryConditionRangeAge"}],
     ["21908-9", {type: "observation", alias: ["loinc", "uiccstadiumcs"]}],  //uicc
     ["21905-5", {type: "TNM-x", alias: ["loinc", "TNMTCS"]}],  //tnm component
     ["21906-3", {type: "TNM-x", alias: ["loinc", "TNMNCS"]}],  //tnm component
@@ -260,6 +268,22 @@ export class CqlTranslatorService implements QueryTranslator {
               }
               break
 
+            case "primaryConditionRangeDate":
+              if (typeof criterion.value == "object"
+                && !(criterion.value instanceof Array<string>)) {
+                if (criterion.type == "LOWER_THAN") {
+                  let lowerThanDateTemplate = this.cqltemplate.get("primaryConditionLowerThanDate")
+                  if (lowerThanDateTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, lowerThanDateTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else if (criterion.type == "GREATER_THAN") {
+                  let greaterThanDateTemplate = this.cqltemplate.get("primaryConditionGreaterThanDate")
+                  if (greaterThanDateTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, greaterThanDateTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else {
+                  expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, myCQL, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                }
+              }
+              break
 
             case "conditionRangeAge": {
               if (typeof criterion.value == "object"
@@ -270,6 +294,24 @@ export class CqlTranslatorService implements QueryTranslator {
                     expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, lowerThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
                 } else if (criterion.type == "GREATER_THAN") {
                   let greaterThanAgeTemplate = this.cqltemplate.get("conditionGreaterThanAge")
+                  if (greaterThanAgeTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, greaterThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else {
+                  expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, myCQL, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                }
+              }
+              break
+            }
+
+            case "primaryConditionRangeAge": {
+              if (typeof criterion.value == "object"
+                && !(criterion.value instanceof Array<string>)) {
+                if (criterion.type == "LOWER_THAN") {
+                  let lowerThanAgeTemplate = this.cqltemplate.get("primaryConditionLowerThanAge")
+                  if (lowerThanAgeTemplate)
+                    expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, lowerThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
+                } else if (criterion.type == "GREATER_THAN") {
+                  let greaterThanAgeTemplate = this.cqltemplate.get("primaryConditionGreaterThanAge")
                   if (greaterThanAgeTemplate)
                     expression += this.substituteCQLExpression(criterion.key, myCriterion.alias, greaterThanAgeTemplate, "", criterion.value.min as number, criterion.value.max as number) + ") and\n"
                 } else {
