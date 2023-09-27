@@ -62,7 +62,7 @@ export class Beam implements RequestTarget {
           withCredentials: this.withCredentials
         }
       ).pipe(catchError(err => {
-        console.error(`Received error then creating a new Beam Task through spot!`)
+        console.error(`Received error when creating a new Beam Task through spot!`)
         return throwError(err);
       }))
     );
@@ -88,7 +88,7 @@ export class Beam implements RequestTarget {
           withCredentials: this.withCredentials
         }
       ).pipe(catchError(err => {
-        console.error(`Received error then creating a new Beam Task through spot!`)
+        console.error(`Received error when creating a new Beam Task through spot!`)
         return throwError(err);
       }))
     );
