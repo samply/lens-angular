@@ -11,6 +11,7 @@ export class Criteria {
       de: string,
       en: string
     },
+    public display_short: string,
     public type: "string" | "number" | "boolean" | "date" | "predefined",
     public system: string,
     public allowedConditionTypes: Array<ConditionTypes> = [],

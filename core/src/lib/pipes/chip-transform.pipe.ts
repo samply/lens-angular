@@ -39,12 +39,12 @@ export class ChipTransformPipe implements PipeTransform {
           if (selection.type == "LOWER_THAN") {
             return `${this.prettifyKey(selection.key)} \u{2264} ${selection.value.max}`
           } else if (selection.type == "GREATER_THAN") {
-            return `${selection.value.min} \u{2264} ${this.prettifyKey(selection.key)}`
+            return `${selection.value.min} \u{2264} ${criteria.display_short}`
           } else if (selection.type == "BETWEEN") {
-            return `${selection.value.min} \u{2264} ${this.prettifyKey(selection.key)} \u{2264} ${selection.value.max}`
+            return `${selection.value.min} \u{2264} ${criteria.display_short} \u{2264} ${selection.value.max}`
           }
         } else {
-          return `${this.prettifyKey(selection.key)} = ${(<Condition> selection).value}`
+          return `${criteria.display_short} = ${(<Condition> selection).value}`
         }
         break;
       case "boolean":
@@ -54,13 +54,13 @@ export class ChipTransformPipe implements PipeTransform {
           selection instanceof Condition && selection.value instanceof Object && !(selection.value instanceof Array<string>)
             && (selection.value.min instanceof Date || selection.value.max instanceof Date)) {
           if (selection.type == "LOWER_THAN") {
-            return `${this.prettifyKey(selection.key)} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
+            return `${criteria.display_short} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
           } else if (selection.type == "GREATER_THAN") {
-            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(selection.key)}`
+            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${criteria.display_short}`
           } else if (selection.type == "BETWEEN") {
-            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${this.prettifyKey(selection.key)} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
+            return `${(<Date> selection.value.min).toLocaleDateString()} \u{2264} ${criteria.display_short} \u{2264} ${(<Date> selection.value.max).toLocaleDateString()}`
           } else {
-            return `${this.prettifyKey(selection.key)} = ${selection.value}`
+            return `${criteria.display_short} = ${selection.value}`
           }
         }
         break;
