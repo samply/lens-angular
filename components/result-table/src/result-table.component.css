@@ -126,8 +126,8 @@ button {
 }
 
 :host ::ng-deep, td:not(.subtable-wrapper){
-  border-bottom: 1px solid #dee2e6;
-  padding: 10px 0;
+  border-bottom: 0px solid #dee2e6;
+  padding: 0px 0;
 }
 
 .table-divider {
