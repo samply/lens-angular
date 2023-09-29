@@ -41,7 +41,7 @@
     </p-overlayPanel>
   </button>
   <button pButton pRipple #searchButton icon="pi pi-search" class="p-button-success"
-      [disabled]="searchBar.inputValue"
+      [disabled]="buttonDisabled"
       (mouseenter)="onMouseEnter(searchButton)" (mouseleave)="onMouseLeave(searchButton)" (click)="onSearchClick()"
       [style.color]="colors.getPrimaryButtonColors().buttonSuccess[0]"
       [style.background]="colors.getPrimaryButtonColors().buttonSuccess[1]"

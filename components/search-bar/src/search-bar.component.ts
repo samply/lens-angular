@@ -32,6 +32,8 @@ export class SearchBarComponent {
 
   searchBarInput: any;
 
+  public buttonDisabled: boolean = false;
+
   @ViewChild(AutoComplete) searchBar!: AutoComplete
 
   constructor(
@@ -111,6 +113,13 @@ export class SearchBarComponent {
         }
         return { label: criteria.displayName.de, value: criteria.key, items: criteriaSuggestions }
       })
+      if (this.suggestions.length === 0) {
+        this.suggestions = [{ label: "", value: "No matches found, please adjust your search :", items: [] }];
+      }
+    }
+    // if input is not empty, disable button
+    if (event.query.length > 0) {
+      this.buttonDisabled = true;
     }
   }
 
@@ -167,6 +176,7 @@ export class SearchBarComponent {
   suggestionSelected($event: Condition) {
     // if an operation or condition with the key exists, add the new value to its children with an OR, otherwise create a new condition
 
+    this.buttonDisabled = false;
     const existingValue = this.queryService.read($event.key);
 
     if (!existingValue) {
@@ -221,9 +231,11 @@ export class SearchBarComponent {
   }
 
   public onMouseEnter(element: HTMLElement): void {
-    element.style.opacity = "0.8";
+    if (!this.buttonDisabled)
+      element.style.opacity = "0.8";
   }
   public onMouseLeave(element: HTMLElement): void {
+    if (!this.buttonDisabled)
     element.style.opacity = "1";
   }
 

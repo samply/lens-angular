@@ -42,6 +42,10 @@
   background-color: #00618f;
 }
 
+button:disabled {
+  opacity: 0.6!important;
+}
+
 ::ng-deep .p-inputgroup button {
   margin-left: 8px !important;
   border-radius: 5px !important;
