@@ -32,6 +32,16 @@ export class BarChartComponent extends ChartJsComponent{
       plugins: {
         legend: {
           display: false,
+        },
+        tooltip: {
+          callbacks: {
+            title: (context) => {
+              const key = context[0].label || '';
+              let result = (this.resultRenderer.tooltips.get(key))
+                ? this.resultRenderer.tooltips.get(key) : key;
+              return result
+            }
+          }
         }
       },
       scales: {
@@ -47,9 +57,20 @@ export class BarChartComponent extends ChartJsComponent{
           title: {
             display: true,
             text: resultRenderer.xAxisTitle
+          },
+          ticks: {
+            callback: (val) => {
+              if (typeof val === 'string') return val.toString()
+              const key: unknown = (this.chartData.labels)
+                ? this.chartData.labels[val] : val.toString();
+              if (typeof key !== 'string') return val.toString()
+              let result = (this.resultRenderer.headers.get(key))
+                ? this.resultRenderer.headers.get(key) : key;
+              return result
+            }
           }
         }
-      }
+      },
     }
   }
 }

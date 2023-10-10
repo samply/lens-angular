@@ -90,7 +90,7 @@ export class ResultRendererComponent implements OnInit {
   private computeNewData(values: {key: string, population: number}[]): {key: string, population: number}[] {
     let aggregation = this.applyAggregators(values);
     let sorted = this.applySorting(aggregation)
-    return this.applyHeaders(sorted);
+    return sorted;
   }
 
   private applyAggregators(data: {key: string, population: number}[]): {key: string, population: number}[] {
@@ -135,7 +135,7 @@ export class ResultRendererComponent implements OnInit {
     if (!this.resultRenderer.clickDisabled) {
       let newCondition: Condition | Operation = this.currentCondition;
       let existingCondition = this.queryService.read(this.currentCondition.key);
-      let newValue = this.unmapHeader(this.results[event.element.index].key);
+      let newValue = this.results[event.element.index].key;
       let criteria = this.catalogueService.getCriteria((this.resultRenderer.results[0].subset) ? this.resultRenderer.results[0].subset?.toLowerCase() : this.resultRenderer.results[0].key.toLowerCase())
       switch (criteria.type) {
         case "string":

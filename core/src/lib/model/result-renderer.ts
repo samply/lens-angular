@@ -22,6 +22,8 @@ export class ResultRenderer {
   public readonly clickDisabled: boolean = false;
   /* alternative labels for the keys of the data */
   public readonly headers: Map<string, string> = new Map<string, string>();
+  /* alternative labels for the tooltips of hovering */
+  public readonly tooltips: Map<string, string> = new Map<string, string>();
   /* list of strings that add information for the user */
   public readonly hints: Array<string> = [];
   /* a list of custom functions used to further aggregate the data */
@@ -72,6 +74,7 @@ export class ResultRenderer {
       indexAxis?: 'x' | 'y'
       displayLegend?: boolean
       headers?: Map<string, string>
+      tooltips?: Map<string, string>
       clickDisabled?: boolean
       displayProperties?: string[]
       hints?: Array<string>
@@ -97,6 +100,8 @@ export class ResultRenderer {
       this.clickDisabled = options.clickDisabled
     if (options.headers != undefined)
       this.headers = options.headers
+    if (options.tooltips != undefined)
+      this.tooltips = options.tooltips
     if (options.aggregators != undefined)
       this.aggregators = options.aggregators
     if (options.sorters != undefined)
