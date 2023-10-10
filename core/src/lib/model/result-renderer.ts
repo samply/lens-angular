@@ -98,8 +98,11 @@ export class ResultRenderer {
       this.displayProperties = options.displayProperties
     if (options.clickDisabled != undefined)
       this.clickDisabled = options.clickDisabled
-    if (options.headers != undefined)
+    if (options.headers != undefined) {
       this.headers = options.headers
+      // use headers as default for tooltips, as backwards compatibility
+      this.tooltips = options.headers
+    }
     if (options.tooltips != undefined)
       this.tooltips = options.tooltips
     if (options.aggregators != undefined)

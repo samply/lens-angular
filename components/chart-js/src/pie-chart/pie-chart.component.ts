@@ -31,9 +31,41 @@ export class PieChartComponent extends ChartJsComponent{
         legend: {
           display: true,
           position: "bottom",
+          labels: {
+            generateLabels: (chart) => {
+              if (chart.data === undefined) return []
+              if (chart.data.labels === undefined) return []
+              return chart.data.labels.map((l, i) => {
+                if (typeof l !== 'string' || l === undefined) return {
+                  datasetIndex: i,
+                  text: "error"
+                }
+                let header = this.resultRenderer.headers.get(l);
+                if (header === undefined) {
+                  header = l
+                }
+                const labelColor = (this.isEmpty())
+                  ? "#E6E6E6" : this.primaryColors[i]
+                return {
+                datasetIndex: i,
+                text: header,
+                fillStyle: labelColor,
+                strokeStyle: labelColor,
+              }})
+            }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            title: (context) => {
+              const key = context[0].label || '';
+              const result = (this.resultRenderer.tooltips.get(key))
+                ? this.resultRenderer.tooltips.get(key) : key;
+              return result
+            }
+          }
         }
       }
     }
   }
-
 }
