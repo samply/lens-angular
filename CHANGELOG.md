@@ -1,4 +1,13 @@
 # Changelog
+## [0.1.6] - 2023-10-12
+### :bug: Bug Fixes
+- [`0f0a5ab`](https://github.com/samply/lens/commit/0f0a5abb9032301d418ef14555e81499f3fb5206) - numbers in strings don't cause empty detection *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`4f35efb`](https://github.com/samply/lens/commit/4f35efb270d8da525d6c3056557fb8eaae62697f) - reworked querying of beam for results *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :wrench: Chores
+- [`14c7081`](https://github.com/samply/lens/commit/14c708155d0901d83fbef9126d5fb9c86ecaa943) - release version 0.1.6 *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.1.5] - 2023-09-21
 ### :bug: Bug Fixes
 - [`654d9ed`](https://github.com/samply/lens/commit/654d9ed4222deb3fe249585654dce764269b2037) - merge string conditions in search-bar *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -80,3 +89,4 @@
 [0.1.2]: https://github.com/samply/lens/compare/0.1.1...0.1.2
 [0.1.4]: https://github.com/samply/lens/compare/0.1.3...0.1.4
 [0.1.5]: https://github.com/samply/lens/compare/0.1.4...0.1.5
+[0.1.6]: https://github.com/samply/lens/compare/0.1.5...0.1.6
