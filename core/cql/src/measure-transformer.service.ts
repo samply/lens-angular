@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import { Buffer } from 'buffer';
 import { Measure, ResultTransformer, Stratifier } from '@samply/lens-core';
 
 @Injectable({
@@ -27,15 +28,19 @@ export class MeasureTransformerService implements ResultTransformer {
       "patients",
       []
     )
-    results.forEach((data, requestTarget) => {
+    results.forEach((unmappedData, requestTarget) => {
+      let mappedData = (unmappedData.body)
+        ? unmappedData.body : unmappedData
       let siteMeasures: Array<Measure> = []
+      // exit if there is no data to parse
+      if (mappedData == "unused" || mappedData == "Cannot execute query: FHIR Measure evaluation error in Blaze") return
+      let data = JSON.parse(Buffer.from(mappedData, 'base64').toString('binary'));
       if (data != undefined && data.group instanceof Array) {
-        console.log(`Running through adding`)
         data.group.forEach((group: any) => {
           siteMeasures.push(this.transformToMeasure(group, requestTarget))
         })
       } else {
-        console.log("Received empty dataset from site, adding empty measures for this site!")
+        console.debug("Received empty dataset from site, adding empty measures for this site!")
         siteMeasures.push(new Measure("patients", 0, []))
         siteMeasures.push(new Measure("specimen", 0, []))
         siteMeasures.push(new Measure("procedures", 0, []))
