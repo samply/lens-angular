@@ -9,30 +9,23 @@ The primary target of this library is to deliver a good amount of building block
 
 ## Development Setup
 
-### Prerequisites
-
-- Install [Node.js] which includes [Node Package Manager][npm]
-
-### Setting Up a Project
-
-Install the Angular CLI globally:
-
-```
-npm install -g @angular/cli
+To get started with the development on lens, you will need to first install all dependencies
+``` shell
+npm install
 ```
 
-Create workspace:
+With the project dependencies set up, you can now run
 
-```
-ng new [PROJECT NAME]
+``` shell
+npm run watch
 ```
 
-Run the application:
+which will automatically start building @samply/lens-core and @samply/lens-components. 
 
-```
-cd [PROJECT NAME]
-npm install lens-core lens-components
-ng serve
+Finally to link the local build of the library to you local npm package registry you need to run
+
+``` shell
+npm run link
 ```
 
 ### Further help

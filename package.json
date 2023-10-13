@@ -15,6 +15,7 @@
     "url": "https://github.com/samply/lens.git"
   },
   "scripts": {
+    "clean": "rimraf dist",
     "ng": "ng",
     "start": "ng serve",
     "format": "prettier --write \"**/*.{js,ts,d.ts}\"",
@@ -24,7 +25,12 @@
     "test:headless": "ng test --browsers=ChromeHeadless --watch=false --code-coverage",
     "build": "ng build",
     "build:lib": "ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
+    "watch": "npm run clean && run-p watch:*",
+    "watch:core": "ng build --watch --configuration development @samply/lens-core",
+    "watch:components": "wait-on dist/samply/lens-core/index.d.ts && ng build --watch --configuration development @samply/lens-components",
+    "link": "run-p link:*",
+    "link:core": "wait-on dist/samply/lens-core/index.d.ts && cd dist/samply/lens-core/ && npm link",
+    "link:components": "wait-on dist/samply/lens-components/index.d.ts && cd dist/samply/lens-components/ && npm link",
     "lint": "ng lint",
     "lint:commits": "commitlint --from=origin/develop",
     "prepare": "husky install"
@@ -73,7 +79,11 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "ng-packagr": "^15.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
-    "typescript": "~4.9.4"
+    "rimraf": "^5.0.5",
+    "run-p": "^0.0.0",
+    "typescript": "~4.9.4",
+    "wait-on": "^7.0.1"
   }
 }
