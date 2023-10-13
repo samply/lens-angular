@@ -14,9 +14,9 @@ import {
 })
 export class ResultTableComponent extends ResultRendererComponent {
 
-  public openRow(index: number) {
-    document.querySelector(`.collapsable-wrapper-${index}`)?.classList.toggle('open')
-    const button = document.querySelector(`.expand-button-${index}`)
+  public openRow(index: number, provider: string) {
+    document.querySelector(`.collapsable-wrapper-${index}-${provider}`)?.classList.toggle('open')
+    const button = document.querySelector(`.expand-button-${index}-${provider}`)
     if (button?.classList.contains('pi-angle-down')){
       button.classList.remove('pi-angle-down')
       button.classList.add('pi-angle-up')

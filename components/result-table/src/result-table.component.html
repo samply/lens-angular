@@ -19,9 +19,9 @@
           <td colspan="2"><img src="data:image/png;base64, {{results.provider_icon}}" alt=""> {{results.provider}}</td>
           <td [style.width]="'15%'">{{result.studies_count}}</td>
           <td [style.width]="'15%'">{{result.subjects_count}}</td>
-          <td class="toggle"><button (click)="openRow(i)"><span class="expand-button-{{i}} pi pi-angle-down" ></span></button></td>
+          <td class="toggle"><button (click)="openRow(i, results.provider)"><span class="expand-button-{{i}}-{{results.provider}} pi pi-angle-down" ></span></button></td>
         </tr>
-        <tr class="collapsable-wrapper collapsable-wrapper-{{i}}">
+        <tr class="collapsable-wrapper collapsable-wrapper-{{i}}-{{results.provider}}">
           <td colspan="5" >
             <div>
               Age range: {{result.age_range.min}} to {{ result.age_range.max}}
