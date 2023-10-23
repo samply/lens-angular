@@ -15,7 +15,8 @@
         <td colspan="6" class="table-divider">
       <table *ngFor="let result of results.collections, index as i" [style.width]="'100%'">
         <tr>
-          <td>{{result.name}}</td>
+          <td *ngIf="result.id; else noID"><a href="https://catalogue.eucaim.cancerimage.eu/menu/main/app-molgenis-app-biobank-explorer-eucaim/#/collection/{{result.id}}">{{result.name}}</a></td>
+          <ng-template #noID>{{result.name}}</ng-template>
           <td colspan="2"><img src="data:image/png;base64, {{results.provider_icon}}" alt=""> {{results.provider}}</td>
           <td [style.width]="'15%'">{{result.studies_count}}</td>
           <td [style.width]="'15%'">{{result.subjects_count}}</td>
