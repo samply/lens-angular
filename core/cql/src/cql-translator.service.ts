@@ -283,9 +283,9 @@ export class CqlTranslatorService implements QueryTranslator {
       "codesystem SampleMaterialType: 'https://fhir.bbmri.de/CodeSystem/SampleMaterialType'\n" +
       '\n';
 
-    let singletons: string = this.configuration.backendMeasureReplacement
-      ? this.configuration.cqlInitPopPlaceholder + '\n'
-      : 'define InInitialPopulation:\n';
+      let singletons: string = (this.configuration.backendMeasureReplacement)
+      ? "DKTK_STRAT_DEF_IN_INITIAL_POPULATION\n"
+      : "define InInitialPopulation:\n"
 
     query.children.forEach((criterion: Operation | Condition) => {
       singletons += this.getSingleton(criterion);
