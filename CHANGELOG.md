@@ -1,4 +1,28 @@
 # Changelog
+## [0.2.0] - 2023-10-24
+### :boom: BREAKING CHANGES
+- due to [`34f017a`](https://github.com/samply/lens/commit/34f017af74d9e2faeeea3b8db67f1a33fa498e5b) - modified measure structur for other projects *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*:
+
+  old measure are not useable anymore and need to adapt to the new interface
+
+- due to [`e7f3a76`](https://github.com/samply/lens/commit/e7f3a76e2618449637d54f09b323e6a1bf806e70) - modified measure structur for other projects *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*:
+
+  old measure are not useable anymore and need to adapt to the new interface
+
+
+### :sparkles: New Features
+- [`34f017a`](https://github.com/samply/lens/commit/34f017af74d9e2faeeea3b8db67f1a33fa498e5b) - modified measure structur for other projects *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+- [`d15bd54`](https://github.com/samply/lens/commit/d15bd543292166de6a39fc7c98fc8f0446b955fa) - added exliquid code *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+- [`e7f3a76`](https://github.com/samply/lens/commit/e7f3a76e2618449637d54f09b323e6a1bf806e70) - modified measure structur for other projects *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+- [`1e9f2c9`](https://github.com/samply/lens/commit/1e9f2c9664cf84ba04688a682952d0dfcbe98b2e) - added exliquid code *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+
+### :bug: Bug Fixes
+- [`06f211f`](https://github.com/samply/lens/commit/06f211fdf31ec244ad0e414f3d1595725d0ae833) - test of unrestricted-measure *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+- [`39408f6`](https://github.com/samply/lens/commit/39408f6b098d7a1d0ab620fb9c4c615bcd409cc0) - translate searches for numbers correctly *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+- [`e4638db`](https://github.com/samply/lens/commit/e4638dbdb51734f4427b4d42cba61c1a96143488) - fixed numerical based date searches *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`5ce7bf0`](https://github.com/samply/lens/commit/5ce7bf038aedc59e061d46f5de56be4f109242ab) - cleanup *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+
+
 ## [0.1.6] - 2023-10-12
 ### :bug: Bug Fixes
 - [`0f0a5ab`](https://github.com/samply/lens/commit/0f0a5abb9032301d418ef14555e81499f3fb5206) - numbers in strings don't cause empty detection *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -90,3 +114,4 @@
 [0.1.4]: https://github.com/samply/lens/compare/0.1.3...0.1.4
 [0.1.5]: https://github.com/samply/lens/compare/0.1.4...0.1.5
 [0.1.6]: https://github.com/samply/lens/compare/0.1.5...0.1.6
+[0.2.0]: https://github.com/samply/lens/compare/0.1.6...0.2.0
