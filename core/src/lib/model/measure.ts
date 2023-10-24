@@ -1,9 +1,11 @@
-export class Measure {
+import { AbstractMeasure } from "./abstract-measure";
+
+export class Measure implements AbstractMeasure {
   constructor(
     public key: string,
     public value: number,
     public stratifier: Array<Stratifier>
-  ) {}
+  ) { }
 
   findStratum(stratifierKey: string, stratumKey:string): number {
     let foundStratifier = this.findStratifier(stratifierKey)

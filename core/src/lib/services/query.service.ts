@@ -47,7 +47,7 @@ export class QueryService {
     // Enable transformation of incoming results
     this.resultsSubject$.subscribe(results => {
       console.log(`New results are received, therefore triggering transformation!`)
-      this.transformedResultsSubject$.next(this.resultTransformer.transform(results))
+      this.transformedResultsSubject$.next(this.resultTransformer.transform(results) as Measure[])
     })
     this.configuration.requestTargets.forEach(requestTarget => {
       requestTarget.isLoading$.subscribe(next => this.onRequestTargetIsLoading())
