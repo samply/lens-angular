@@ -172,10 +172,8 @@ export class Beam implements RequestTarget {
         let site: string = response.from.split(".")[1]
         let status: Status = response.status
         let body: SiteData = (status === "succeeded") ? JSON.parse(atob(response.body)) : null;
-
         // if the site is already in the store and the status is claimed, don't update the store
         if (this.storeCache.get(site)?.status === status) return;
-
         changes.set(site, { status: status, data: body });
       });
 
