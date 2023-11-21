@@ -196,7 +196,7 @@ export class CqlTranslatorService implements QueryTranslator {
       { type: 'conditionLocalization', alias: ['lokalisation_icd_o_3'] },
     ],
     ['59542-1', { type: 'observation', alias: ['loinc', 'gradingcs'] }], //grading
-    ["59542-1-nNGM", {type: "observationGradingNNGM", alias: ["loinc", "gradingcs"]}],  //grading
+    ["59542-1-nNGM", {type: "observationGradingNNGM", alias: ["loinc", "gradingcsnngm"]}],  //grading
     ["78873005", {type: "observationTnmNNGM", alias: ["snomed", "tnmtnngm"]}],  //tnmt
     ["277206009", {type: "observationTnmNNGM", alias: ["snomed", "tnmnnngm"]}],  //tnmn
     ["277208005", {type: "observationTnmNNGM", alias: ["snomed", "tnmmnngm"]}],  //tnmm
@@ -359,6 +359,7 @@ export class CqlTranslatorService implements QueryTranslator {
               break;
             }
 
+            case "conditionUicc":
             case 'conditionValue':
             case 'conditionBodySite':
             case 'conditionLocalization':
@@ -371,31 +372,6 @@ export class CqlTranslatorService implements QueryTranslator {
             case 'procedureResidualstatus':
             case 'medicationStatement':
             case 'specimen':
-            case 'samplingDate':
-              {
-                if (
-                  typeof criterion.value == 'object' &&
-                  !(criterion.value instanceof Array) &&
-                  (criterion.value.min instanceof Date &&
-                    criterion.value.max instanceof Date)
-                )
-                  {
-                  expression = expression.slice(0, -1);
-                  expression += " and ("
-
-                expression +=
-                this.substituteCQLExpressionDate(
-                  criterion.key,
-                  myCriterion.alias,
-                  myCQL,
-                  '',
-                  criterion.value.min as Date,
-                  criterion.value.max as Date
-                ) + ') and\n';
-                }
-                break;
-
-              }
             case 'hasSpecimen':
             case 'Organization':
             case 'observationMolecularMarkerName':
@@ -570,10 +546,14 @@ export class CqlTranslatorService implements QueryTranslator {
     let cqlString: string;
     if (value) {
       cqlString = cql.replace(new RegExp('{{C}}'), value);
+      while (cqlString.search('{{C}}') != -1) {
+         cqlString = cqlString.replace(new RegExp('{{C}}'), value);
+      }
     } else {
       cqlString = cql;
     }
     cqlString = cqlString.replace(new RegExp('{{K}}'), key);
+    // TODO: Write this with a loop for future A4 ...
     if (alias && alias[0]) {
       cqlString = cqlString.replace(new RegExp('{{A1}}', 'g'), alias[0]);
       const systemExpression =
@@ -586,6 +566,14 @@ export class CqlTranslatorService implements QueryTranslator {
       cqlString = cqlString.replace(new RegExp('{{A2}}', 'g'), alias[1]);
       const systemExpression =
         'codesystem ' + alias[1] + ": '" + this.alias.get(alias[1]) + "'";
+      if (!this.codesystems.includes(systemExpression)) {
+        this.codesystems.push(systemExpression);
+      }
+    }
+    if (alias && alias[2]) {
+      cqlString = cqlString.replace(new RegExp('{{A3}}', 'g'), alias[2]);
+      const systemExpression =
+        'codesystem ' + alias[2] + ": '" + this.alias.get(alias[2]) + "'";
       if (!this.codesystems.includes(systemExpression)) {
         this.codesystems.push(systemExpression);
       }
