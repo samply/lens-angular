@@ -188,6 +188,7 @@ export class CqlTranslatorService implements QueryTranslator {
     ['gender', { type: 'gender' }],
     ['samplingDate', { type: 'samplingDate' }],
     ['diagnosis', { type: 'conditionValue', alias: ['icd10'] }],
+    ['nngmDiagnosis', { type: 'conditionValue', alias: ['lokalisation_icd_o_3'] }],
     ["uicc", {type: "conditionUicc", alias: ["uicc8","uicc7","snomed"]}],
     ['bodySite', { type: 'conditionBodySite', alias: ['bodySite'] }],
     ['bodySiteNNGM', { type: 'conditionBodySite', alias: ['bodySiteNNGM'] }],
