@@ -1,4 +1,9 @@
 # Changelog
+## [0.2.2] - 2023-11-28
+### :bug: Bug Fixes
+- [`c9b95e5`](https://github.com/samply/lens/commit/c9b95e518eef1baec448d7afd7aa36f63f42284a) - fixed measuretransformer for other direct usage *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
+
+
 ## [0.2.1] - 2023-11-10
 ### :bug: Bug Fixes
 - [`73a29e2`](https://github.com/samply/lens/commit/73a29e249916fbfa93178997a07d69d9d92919fb) - fixed passthroughservice *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
@@ -121,3 +126,4 @@
 [0.1.6]: https://github.com/samply/lens/compare/0.1.5...0.1.6
 [0.2.0]: https://github.com/samply/lens/compare/0.1.6...0.2.0
 [0.2.1]: https://github.com/samply/lens/compare/0.2.0...0.2.1
+[0.2.2]: https://github.com/samply/lens/compare/0.2.1...0.2.2
