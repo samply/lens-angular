@@ -25,7 +25,13 @@ export class CqlTranslatorService implements QueryTranslator {
   alias = new Map<string, string>([
     ['icd10', 'http://fhir.de/CodeSystem/bfarm/icd-10-gm'],
     ['loinc', 'http://loinc.org'],
+    ["snomed", "http://snomed.info/sct"],
     ['gradingcs', 'http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS'],
+    ["gradingcsnngm", "urn:oid:2.16.840.1.113883.15.16"],
+    ["tnmtnngm", "urn:oid:2.16.840.1.113883.15.16"],
+    ["tnmnnngm", "urn:oid:2.16.840.1.113883.15.16"],
+    ["tnmmnngm", "urn:oid:2.16.840.1.113883.15.16"],
+    ["tnmrynngm", "urn:oid:2.16.840.1.113883.15.16"],
     ['ops', 'http://fhir.de/CodeSystem/bfarm/ops'],
     ['morph', 'urn:oid:2.16.840.1.113883.6.43.1'],
     ['lokalisation_icd_o_3', 'urn:oid:2.16.840.1.113883.6.43.1'],
@@ -33,6 +39,9 @@ export class CqlTranslatorService implements QueryTranslator {
       'bodySite',
       'http://dktk.dkfz.de/fhir/onco/core/CodeSystem/SeitenlokalisationCS',
     ],
+    ["bodySiteNNGM", "http://terminology.hl7.org/CodeSystem/icd-o-3"],
+    ["uicc8nNGM", "http://uk-koeln.de/fhir/CodeSystem/nNGM/uiccStagingV8"],
+    ["uicc7nNGM", "http://uk-koeln.de/fhir/CodeSystem/nNGM/uiccStagingV7"],
     [
       'Therapieart',
       'http://dktk.dkfz.de/fhir/onco/core/CodeSystem/SYSTTherapieartCS',
@@ -66,6 +75,9 @@ export class CqlTranslatorService implements QueryTranslator {
       'vitalstatuscs',
       'http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS',
     ],
+    ["vitalstatuscsnngm", "http://uk-koeln.de/fhir/nNGM/Vitalstatus"],
+    ["raucherstatuscsnngm", "http://uk-koeln.de/fhir/StructureDefinition/Observation/nNGM/raucherstatus"],
+    ["ecogcsnngm", "http://uk-koeln.de/fhir/StructureDefinition/Observation/nNGM/ecog"],
     ['jnucs', 'http://dktk.dkfz.de/fhir/onco/core/CodeSystem/JNUCS'],
     [
       'fmlokalisationcs',
@@ -106,6 +118,8 @@ export class CqlTranslatorService implements QueryTranslator {
     ["conditionRangeAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) between {{D1}} and {{D2}}"],
     ["conditionLowerThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) <= {{D2}}"],
     ["conditionGreaterThanAge", "exists [Condition] C\nwhere AgeInYearsAt(FHIRHelpers.ToDateTime(C.onset)) >= {{D1}}"],
+    //UICC Anfrage auf Erstdiagnose (V7+V8) sowie auf Condition
+    ["conditionUicc", "(exists from [Condition] C\nwhere (C.stage.summary.coding contains Code '{{C}}' from {{A1}})) or (exists from [Condition] C\nwhere (C.stage.summary.coding contains Code '{{C}}' from {{A2}})) or (exists from [Observation: Code '260879005' from {{A3}}] O\nwhere O.value.coding.code contains '{{C}}')"],
     //TODO Revert to first expression if https://github.com/samply/blaze/issues/808 is solved
     // ["observation", "exists from [Observation: Code '{{K}}' from {{A1}}] O\nwhere O.value.coding contains Code '{{C}}' from {{A2}}"],
     [
@@ -140,6 +154,11 @@ export class CqlTranslatorService implements QueryTranslator {
       'observationMolecularMarkerEnsemblID',
       "exists from [Observation: Code '69548-6' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value = '{{C}}'",
     ],
+    [
+      "observationGradingNNGM",
+      "exists from [Observation: Code '59847-4' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '59542-1' from {{A1}}).value.coding.code = '{{C}}'"
+    ],
+    ["observationTnmNNGM", "exists from [Observation: Code '260879005' from {{A1}}] O\nwhere O.component.where(code.coding contains Code '{{K}}' from {{A1}}).value.coding.code = '{{C}}'"],
     ['procedure', "exists [Procedure: category in Code '{{K}}' from {{A1}}]"],
     [
       'procedureResidualstatus',
@@ -169,12 +188,20 @@ export class CqlTranslatorService implements QueryTranslator {
     ['gender', { type: 'gender' }],
     ['samplingDate', { type: 'samplingDate' }],
     ['diagnosis', { type: 'conditionValue', alias: ['icd10'] }],
+    ['nngmDiagnosis', { type: 'conditionValue', alias: ['lokalisation_icd_o_3'] }],
+    ["uicc", {type: "conditionUicc", alias: ["uicc8","uicc7","snomed"]}],
     ['bodySite', { type: 'conditionBodySite', alias: ['bodySite'] }],
+    ['bodySiteNNGM', { type: 'conditionBodySite', alias: ['bodySiteNNGM'] }],
     [
       'urn:oid:2.16.840.1.113883.6.43.1',
       { type: 'conditionLocalization', alias: ['lokalisation_icd_o_3'] },
     ],
     ['59542-1', { type: 'observation', alias: ['loinc', 'gradingcs'] }], //grading
+    ["59542-1-nNGM", {type: "observationGradingNNGM", alias: ["loinc", "gradingcsnngm"]}],  //grading
+    ["78873005", {type: "observationTnmNNGM", alias: ["snomed", "tnmtnngm"]}],  //tnmt
+    ["277206009", {type: "observationTnmNNGM", alias: ["snomed", "tnmnnngm"]}],  //tnmn
+    ["277208005", {type: "observationTnmNNGM", alias: ["snomed", "tnmmnngm"]}],  //tnmm
+    ["399566009", {type: "observationTnmNNGM", alias: ["snomed", "tnmrynngm"]}],  //tnmm
     [
       'metastases_present',
       { type: 'observationMetastasis', alias: ['loinc', 'jnucs'] },
@@ -264,6 +291,9 @@ export class CqlTranslatorService implements QueryTranslator {
     ['75186-7', { type: 'observation', alias: ['loinc', 'vitalstatuscs'] }], //Vitalstatus
     //["Organization", {type: "Organization"}],
     ['Organization', { type: 'department' }],
+    ["67162-8", {type: "observation", alias: ["loinc", "vitalstatuscsnngm"]}],  //Vitalstatus
+    ["72166-2", {type: "observation", alias: ["loinc", "raucherstatuscs"]}],  //Raucherstatus
+    ["89247-1", {type: "observation", alias: ["loinc", "ecogcs"]}],  //ecog
   ]);
 
   criteria!: Criteria;
@@ -330,41 +360,19 @@ export class CqlTranslatorService implements QueryTranslator {
               break;
             }
 
+            case "conditionUicc":
             case 'conditionValue':
             case 'conditionBodySite':
             case 'conditionLocalization':
             case 'observation':
+            case "observationGradingNNGM":
+            case "observationTnmNNGM":
             case 'observationMetastasis':
             case 'observationMetastasisBodySite':
             case 'procedure':
             case 'procedureResidualstatus':
             case 'medicationStatement':
             case 'specimen':
-            case 'samplingDate':
-              {
-                if (
-                  typeof criterion.value == 'object' &&
-                  !(criterion.value instanceof Array) &&
-                  (criterion.value.min instanceof Date &&
-                    criterion.value.max instanceof Date)
-                )
-                  {
-                  expression = expression.slice(0, -1);
-                  expression += " and ("
-
-                expression +=
-                this.substituteCQLExpressionDate(
-                  criterion.key,
-                  myCriterion.alias,
-                  myCQL,
-                  '',
-                  criterion.value.min as Date,
-                  criterion.value.max as Date
-                ) + ') and\n';
-                }
-                break;
-
-              }
             case 'hasSpecimen':
             case 'Organization':
             case 'observationMolecularMarkerName':
@@ -539,10 +547,14 @@ export class CqlTranslatorService implements QueryTranslator {
     let cqlString: string;
     if (value) {
       cqlString = cql.replace(new RegExp('{{C}}'), value);
+      while (cqlString.search('{{C}}') != -1) {
+         cqlString = cqlString.replace(new RegExp('{{C}}'), value);
+      }
     } else {
       cqlString = cql;
     }
     cqlString = cqlString.replace(new RegExp('{{K}}'), key);
+    // TODO: Write this with a loop for future A4 ...
     if (alias && alias[0]) {
       cqlString = cqlString.replace(new RegExp('{{A1}}', 'g'), alias[0]);
       const systemExpression =
@@ -555,6 +567,14 @@ export class CqlTranslatorService implements QueryTranslator {
       cqlString = cqlString.replace(new RegExp('{{A2}}', 'g'), alias[1]);
       const systemExpression =
         'codesystem ' + alias[1] + ": '" + this.alias.get(alias[1]) + "'";
+      if (!this.codesystems.includes(systemExpression)) {
+        this.codesystems.push(systemExpression);
+      }
+    }
+    if (alias && alias[2]) {
+      cqlString = cqlString.replace(new RegExp('{{A3}}', 'g'), alias[2]);
+      const systemExpression =
+        'codesystem ' + alias[2] + ": '" + this.alias.get(alias[2]) + "'";
       if (!this.codesystems.includes(systemExpression)) {
         this.codesystems.push(systemExpression);
       }
