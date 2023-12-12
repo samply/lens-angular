@@ -1,4 +1,13 @@
 # Changelog
+## [0.2.3] - 2023-12-12
+### :sparkles: New Features
+- [`e66b4d3`](https://github.com/samply/lens/commit/e66b4d38cc290311a3cde9632481de6147a8823c) - wip - added nngm templates *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`3285704`](https://github.com/samply/lens/commit/3285704aae8290664b854f6f913486d815eefdeb) - added nngmDiagnosis template *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :bug: Bug Fixes
+- [`56652f9`](https://github.com/samply/lens/commit/56652f92f67e451fc86580256a3001708b8ec879) - all criteria should now work *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.2.2] - 2023-11-28
 ### :bug: Bug Fixes
 - [`c9b95e5`](https://github.com/samply/lens/commit/c9b95e518eef1baec448d7afd7aa36f63f42284a) - fixed measuretransformer for other direct usage *(commit by [@patrickskowronekdkfz](https://github.com/patrickskowronekdkfz))*
@@ -127,3 +136,4 @@
 [0.2.0]: https://github.com/samply/lens/compare/0.1.6...0.2.0
 [0.2.1]: https://github.com/samply/lens/compare/0.2.0...0.2.1
 [0.2.2]: https://github.com/samply/lens/compare/0.2.1...0.2.2
+[0.2.3]: https://github.com/samply/lens/compare/0.2.2...0.2.3
