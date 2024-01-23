@@ -22,9 +22,15 @@
     "security:check": "npm audit --production --audit-level high",
     "test": "ng test",
     "test:headless": "ng test --browsers=ChromeHeadless --watch=false --code-coverage",
-    "build": "ng build",
-    "build:lib": "ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
+    "build": "rimraf dist && concurrently 'npm:build:*'",
+    "build:core": "ng build --configuration production @samply/lens-core",
+    "build:components": "wait-on dist/samply/lens-core/index.d.ts && ng build --configuration production @samply/lens-components",
+    "watch": "rimraf dist && concurrently 'npm:watch:*'",
+    "watch:core": "ng build --watch --configuration development @samply/lens-core",
+    "watch:components": "wait-on dist/samply/lens-core/index.d.ts && ng build --watch --configuration development @samply/lens-components",
+    "link": "npm run link:core && npm run link:components",
+    "link:core": "wait-on dist/samply/lens-core/index.d.ts && cd dist/samply/lens-core && npm link",
+    "link:components": "wait-on dist/samply/lens-components/index.d.ts && cd dist/samply/lens-components && npm link",
     "lint": "ng lint",
     "lint:commits": "commitlint --from=origin/develop",
     "prepare": "husky install"
@@ -64,6 +70,7 @@
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
+    "concurrently": "^8.2.2",
     "eslint": "^8.33.0",
     "husky": "^8.0.3",
     "jasmine-core": "~4.5.0",
@@ -74,6 +81,8 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "ng-packagr": "^15.1.0",
     "prettier": "^2.8.8",
-    "typescript": "~4.9.4"
+    "rimraf": "^5.0.5",
+    "typescript": "~4.9.4",
+    "wait-on": "^7.2.0"
   }
 }
