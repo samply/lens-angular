@@ -23,6 +23,7 @@
     "test": "ng test",
     "test:headless": "ng test --browsers=ChromeHeadless --watch=false --code-coverage",
     "build": "rimraf dist && concurrently 'npm:build:*'",
+    "build:lib": "ng build --configuration production",
     "build:core": "ng build --configuration production @samply/lens-core",
     "build:components": "wait-on dist/samply/lens-core/index.d.ts && ng build --configuration production @samply/lens-components",
     "watch": "rimraf dist && concurrently 'npm:watch:*'",
