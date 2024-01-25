@@ -182,6 +182,11 @@ export class CqlTranslatorService implements QueryTranslator {
       'department',
       "exists from [Encounter] I\nwhere I.identifier.value = '{{C}}' ",
     ],
+    ['chemoHki', "exists [MedicationStatement: category in Code 'CH' from {{A1}}] M\nwhere M.extension.where(url='http://hki.de/fhir/StructureDefinition/Therapielinie').value.text = '{{C}}'"],
+    ['immunHki', "exists [MedicationStatement: category in Code 'IM' from {{A1}}] M\nwhere M.extension.where(url='http://hki.de/fhir/StructureDefinition/Therapielinie').value.text = '{{C}}'"],
+    ['targetedTherapyHki', "exists [MedicationStatement: category in Code 'ZS' from {{A1}}] M\nwhere M.extension.where(url='http://hki.de/fhir/StructureDefinition/Therapielinie').value.text = '{{C}}'"],
+    ['therapyIntentionHki', "exists [MedicationStatement] M\nwhere M.extension.where(url='http://dktk.dkfz.de/fhir/StructureDefinition/onco-core-Extension-SYSTIntention').value.coding.code = '{{C}}'"],
+    ['consentHki', "exists [Consent]"],
   ]);
 
   criterionMap = new Map<string, { type: string; alias?: string[] }>([
@@ -294,6 +299,11 @@ export class CqlTranslatorService implements QueryTranslator {
     ["67162-8", {type: "observation", alias: ["loinc", "vitalstatuscsnngm"]}],  //Vitalstatus
     ["72166-2", {type: "observation", alias: ["loinc", "raucherstatuscs"]}],  //Raucherstatus
     ["89247-1", {type: "observation", alias: ["loinc", "ecogcs"]}],  //ecog
+    ["chemo-hki", {type: "chemoHki", alias: ["Therapieart"]}],  // search therapies with specific therapyline
+    ["immun-hki", {type: "immunHki", alias: ["Therapieart"]}],
+    ["targeted-therapy-hki", {type: "targetedTherapyHki", alias: ["Therapieart"]}],
+    ["therapy-intention-hki", {type: "therapyIntentionHki"}],
+    ["consent-hki", {type: "consentHki"}],
   ]);
 
   criteria!: Criteria;
@@ -381,6 +391,11 @@ export class CqlTranslatorService implements QueryTranslator {
             case 'observationMolecularMarkerSeqRefNCBI':
             case 'observationMolecularMarkerEnsemblID':
             case 'department':
+            case 'chemoHki':
+            case 'immunHki':
+            case 'targetedTherapyHki':
+            case 'therapyIntentionHki':
+            case 'consentHki':
             case 'TNM-x': {
               if (typeof criterion.value === 'string') {
                 if (criterion.value.slice(-1) === '%') {

@@ -5,7 +5,8 @@
   align-items: center;
   background-color: white;
   border-radius: 4px;
-  padding: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 ::ng-deep p-chip .p-chip {

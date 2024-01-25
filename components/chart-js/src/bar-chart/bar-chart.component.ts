@@ -40,6 +40,9 @@ export class BarChartComponent extends ChartJsComponent{
           title: {
             display: true,
             text: resultRenderer.yAxisTitle
+          },
+          ticks: {
+            precision: 0
           }
         },
         x: {
@@ -47,6 +50,9 @@ export class BarChartComponent extends ChartJsComponent{
           title: {
             display: true,
             text: resultRenderer.xAxisTitle
+          },
+          ticks: {
+            precision: 0
           }
         }
       }
