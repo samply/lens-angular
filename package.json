@@ -1,6 +1,6 @@
 {
   "name": "lens",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "SEE LICENSE IN LICENSE.md",
   "workspaces": [
     "core",
@@ -34,7 +34,8 @@
     "link:components": "wait-on dist/samply/lens-components/index.d.ts && cd dist/samply/lens-components && npm link",
     "lint": "ng lint",
     "lint:commits": "commitlint --from=origin/develop",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "version": "npm version -ws --include-workspace-root --no-git-tag-version"
   },
   "dependencies": {
     "@angular/animations": "^15.1.0",

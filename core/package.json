@@ -1,6 +1,6 @@
 {
   "name": "@samply/lens-core",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "peerDependencies": {
     "@angular/common": "^15.1.0",
     "@angular/core": "^15.1.0",
