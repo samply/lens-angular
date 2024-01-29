@@ -1,4 +1,13 @@
 # Changelog
+## [0.2.4] - 2024-01-29
+### :sparkles: New Features
+- [`3d79fd7`](https://github.com/samply/lens-angular/commit/3d79fd714b9e1bfbc35da2d13b20a5b8058117c9) - added new dhki search parameters *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+### :recycle: Refactors
+- [`a740efb`](https://github.com/samply/lens-angular/commit/a740efb8e8871b571fa815a796c08e4aad67b402) - reduced spacing around result-summary-bar *(commit by [@torbrenner](https://github.com/torbrenner))*
+- [`46fe2d5`](https://github.com/samply/lens-angular/commit/46fe2d560b8fc07f8f72bb41df2a33a428b91258) - ensure scales don't use decimal numbers *(commit by [@torbrenner](https://github.com/torbrenner))*
+
+
 ## [0.2.3] - 2023-12-12
 ### :sparkles: New Features
 - [`e66b4d3`](https://github.com/samply/lens/commit/e66b4d38cc290311a3cde9632481de6147a8823c) - wip - added nngm templates *(commit by [@torbrenner](https://github.com/torbrenner))*
@@ -137,3 +146,4 @@
 [0.2.1]: https://github.com/samply/lens/compare/0.2.0...0.2.1
 [0.2.2]: https://github.com/samply/lens/compare/0.2.1...0.2.2
 [0.2.3]: https://github.com/samply/lens/compare/0.2.2...0.2.3
+[0.2.4]: https://github.com/samply/lens-angular/compare/0.2.3...0.2.4
