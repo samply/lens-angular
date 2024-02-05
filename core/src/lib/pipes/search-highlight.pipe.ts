@@ -5,7 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchHighlightPipe implements PipeTransform {
 
-  transform(value: string, ...args: any): string{
+  transform(value: string | string[], ...args: any): string | string[]{
+    // search bar switches between string that only contains current input
+      // and array that contains all chips
+    if (typeof value === "object"
+      && value instanceof Array<string>)
+      return value
     if (!args) {
       return value;
     }
