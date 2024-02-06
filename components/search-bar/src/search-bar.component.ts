@@ -30,8 +30,6 @@ export class SearchBarComponent {
 
   suggestions: Array<{ label: string, value: string, items: Array<Condition | Operation> }> = [];
 
-  searchBarInput: any;
-
   @ViewChild(AutoComplete) searchBar!: AutoComplete
 
   constructor(
@@ -52,9 +50,18 @@ export class SearchBarComponent {
   }
 
 
+  /**
+   * Determine if there text in the searchbar text input that was not added to the query
+   * */
+  public hasInputText() {
+    if (this.searchBar == undefined
+       || this.searchBar.inputValue == undefined)
+      return false
+    return this.searchBar.inputValue.length > 0
+  }
+
   public search(event: { originalEvent: Event, query: string }) {
 
-    this.searchBarInput = event.originalEvent.target
     if (event.query.length < 3) {
       this.currentSearchTerm = undefined;
       this.suggestions = [{ label: "", value: "Search will start with 3 inserted letters ...", items: [] }];
@@ -148,7 +155,6 @@ export class SearchBarComponent {
     this.queryService.clear();
     this.searchBar.inputValue = ''
     this.currentSearchTerm = ''
-    this.searchBarInput.value = ''
   }
 
   removeCondition(condition: Condition) {
@@ -166,6 +172,8 @@ export class SearchBarComponent {
 
   suggestionSelected($event: Condition) {
     // if an operation or condition with the key exists, add the new value to its children with an OR, otherwise create a new condition
+
+    this.searchBar.inputValue = "";
 
     const existingValue = this.queryService.read($event.key);
 
@@ -218,13 +226,6 @@ export class SearchBarComponent {
    * Currently no performance issues noticeable. */
   public executeChipTransform(value: Condition | Operation): string {
     return this.chipTransform.transform(value);
-  }
-
-  public onMouseEnter(element: HTMLElement): void {
-    element.style.opacity = "0.8";
-  }
-  public onMouseLeave(element: HTMLElement): void {
-    element.style.opacity = "1";
   }
 
 }

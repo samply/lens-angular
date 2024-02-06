@@ -28,7 +28,7 @@
     </ng-template>
   </p-autoComplete>
   <button pButton pRipple #infoButton icon="pi pi-info-circle" class="p-button-help"
-    (mouseenter)="onMouseEnter(infoButton)" (mouseleave)="onMouseLeave(infoButton)" (click)="queryInfo.toggle($event)"
+    (click)="queryInfo.toggle($event)"
     [style.color]="colors.getPrimaryButtonColors().buttonInfo[0]"
     [style.background]="colors.getPrimaryButtonColors().buttonInfo[1]"
     [style.borderColor]="colors.getPrimaryButtonColors().buttonInfo[0]">
@@ -41,15 +41,15 @@
     </p-overlayPanel>
   </button>
   <button pButton pRipple #searchButton icon="pi pi-search" class="p-button-success"
-      [disabled]="searchBar.inputValue"
-      (mouseenter)="onMouseEnter(searchButton)" (mouseleave)="onMouseLeave(searchButton)" (click)="onSearchClick()"
+      [disabled]="hasInputText()"
+      (click)="onSearchClick()"
       [style.color]="colors.getPrimaryButtonColors().buttonSuccess[0]"
       [style.background]="colors.getPrimaryButtonColors().buttonSuccess[1]"
       [style.borderColor]="colors.getPrimaryButtonColors().buttonSuccess[1]" label="Search"
       i18n-label="text for the search button"></button>
 
-  <button pButton pRipple #clearButton icon="pi pi-times" class="p-button-danger" (mouseenter)="onMouseEnter(clearButton)"
-      (mouseleave)="onMouseLeave(clearButton)" (click)="onClearClick()"
+  <button pButton pRipple #clearButton icon="pi pi-times" class="p-button-danger"
+      (click)="onClearClick()"
       [style.color]="colors.getPrimaryButtonColors().buttonWarning[0]"
       [style.background]="colors.getPrimaryButtonColors().buttonWarning[1]"
       [style.borderColor]="colors.getPrimaryButtonColors().buttonWarning[1]" label="Clear"

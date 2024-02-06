@@ -54,3 +54,7 @@
 ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token {
   background-color: var(--color-blue) !important;
 }
+
+::ng-deep .p-autocomplete[disabled=true] {
+  opacity: 0.8;
+}
