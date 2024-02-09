@@ -123,6 +123,7 @@ export class ResultRendererComponent implements OnInit {
       this.currentCondition = formerValue;
     } else {
       let criteria = this.catalogueService.getCriteria((this.resultRenderer.results[0].subset) ? this.resultRenderer.results[0].subset?.toLowerCase() : this.resultRenderer.results[0].key.toLowerCase())
+      if (criteria == undefined) return
       this.currentCondition = new Condition(
         criteria.key,
         criteria.allowedConditionTypes[0],
