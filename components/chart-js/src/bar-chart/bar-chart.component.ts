@@ -42,7 +42,8 @@ export class BarChartComponent extends ChartJsComponent{
             text: resultRenderer.yAxisTitle
           },
           ticks: {
-            precision: 0
+            precision: 0,
+            autoSkip: false
           }
         },
         x: {
@@ -52,7 +53,8 @@ export class BarChartComponent extends ChartJsComponent{
             text: resultRenderer.xAxisTitle
           },
           ticks: {
-            precision: 0
+            precision: 0,
+            autoSkip: false
           }
         }
       }
