@@ -63,6 +63,7 @@ export class ResultRenderer {
     "#ff5600"
   ];
   public readonly showNegotiationButton: boolean = false;
+  public readonly showOn: Array<string> = [];
 
   constructor(
     title: string,
@@ -82,6 +83,7 @@ export class ResultRenderer {
       primaryColors?: string[]
       hoverColors?: string[],
       showNegotiationButton?: boolean
+      showOn?: Array<string>
     } = { },
   ) {
     this.title = title;
@@ -113,5 +115,7 @@ export class ResultRenderer {
       this.hints = options.hints
     if(options.showNegotiationButton != undefined)
       this.showNegotiationButton = options.showNegotiationButton
+    if(options.showOn != undefined)
+      this.showOn = options.showOn
   }
 }
