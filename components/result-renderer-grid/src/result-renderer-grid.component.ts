@@ -23,7 +23,7 @@ import { ResultRendererGridDirective } from './result-renderer-grid.directive';
 })
 export class ResultRendererGridComponent implements OnInit {
 
-  @ViewChild(ResultRendererGridDirective, {static: true}) resultRendererGrid!: ResultRendererGridDirective
+  @ViewChild(ResultRendererGridDirective, { static: true }) resultRendererGrid!: ResultRendererGridDirective
 
   /* the ResultRenderers displayed by this grid. */
   @Input()
@@ -36,8 +36,8 @@ export class ResultRendererGridComponent implements OnInit {
     private queryService: QueryService
   ) {
     this.queryService.transformedResults$.subscribe(results => {
-      if(!this.queryService.isModified())
-        this.updateDiagramVisibility();
+      if (!this.queryService.isModified())
+        this.updateComponents()
     })
   }
 
@@ -50,15 +50,11 @@ export class ResultRendererGridComponent implements OnInit {
     viewContainerRef.clear();
     this.resultRenderers.forEach((resultRenderer) => {
       const resultRendererInjector = Injector.create(
-        {name: "ResultRendererProvider", providers: [{provide: ResultRenderer, useValue: resultRenderer}]
+        {
+          name: "ResultRendererProvider", providers: [{ provide: ResultRenderer, useValue: resultRenderer }]
         });
-      const componentRef = viewContainerRef.createComponent<ResultRendererComponent>(resultRenderer.component, {injector: resultRendererInjector});
-      if (resultRenderer.showOn != undefined
-        && !this.showComponent(resultRenderer.showOn)) {
-        this.renderer2.addClass(componentRef.location.nativeElement, "dontshow");
-      } else {
-        this.renderer2.removeClass(componentRef.location.nativeElement, "dontshow");
-      }
+      const componentRef = viewContainerRef.createComponent<ResultRendererComponent>(resultRenderer.component, { injector: resultRendererInjector });
+      this.updateComponentVisibility(componentRef)
       if (resultRenderer.displayProperties.length > 0) {
         resultRenderer.displayProperties.forEach(displayProperty => this.renderer2.addClass(componentRef.location.nativeElement, displayProperty))
       }
@@ -66,24 +62,43 @@ export class ResultRendererGridComponent implements OnInit {
     })
   }
 
-  updateDiagramVisibility() {
+  /** update all components */
+  updateComponents() {
     this.componentRefs.forEach((componentRef) => {
-      const resultRenderer = componentRef.instance.resultRenderer;
-      if (resultRenderer.showOn != undefined
-         && !this.showComponent(resultRenderer.showOn)) {
-         this.renderer2.addClass(componentRef.location.nativeElement, "dontshow");
-       } else {
-         this.renderer2.removeClass(componentRef.location.nativeElement, "dontshow");
-       }
+      this.updateComponentVisibility(componentRef)
     })
   }
 
-  showComponent(showOn: Array<string>): boolean {
-    if (showOn.length === 0) return true;
-    return showOn.some(condition => {
-      if (condition === "empty-query" && this.queryService.isEmpty())
+  /** update the visibility of a single grid component */
+  updateComponentVisibility(componentRef: any) {
+    const resultRenderer = componentRef.instance.resultRenderer;
+    console.log(`${resultRenderer.title}: ${this.showResultRenderer(resultRenderer)}`)
+    if (this.showResultRenderer(resultRenderer)) {
+      this.renderer2.removeClass(componentRef.location.nativeElement, "dontshow");
+    } else {
+      this.renderer2.addClass(componentRef.location.nativeElement, "dontshow");
+    }
+  }
+
+  /** returns true if result renderer grid should draw this result renderer */
+  showResultRenderer(resultRenderer: ResultRenderer): boolean {
+    if (resultRenderer.showOn.length === 0
+      && resultRenderer.dontShowOn.length === 0)
+      return true;
+    if (this.partOfQuery(resultRenderer.dontShowOn))
+      return false;
+    if (this.partOfQuery(resultRenderer.showOn)
+      || resultRenderer.showOn.length === 0)
+      return true;
+    return false;
+  }
+
+  /**  returns true when any element of the array has a matching key in query */
+  partOfQuery(elements: Array<string>): boolean {
+    return elements.some(element => {
+      if (element === "empty-query" && this.queryService.isEmpty())
         return true;
-      return this.queryService.read(condition) !== undefined;
+      return this.queryService.read(element) !== undefined;
     })
   }
 
