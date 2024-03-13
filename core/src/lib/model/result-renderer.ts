@@ -64,6 +64,7 @@ export class ResultRenderer {
   ];
   public readonly showNegotiationButton: boolean = false;
   public readonly showOn: Array<string> = [];
+  public readonly dontShowOn: Array<string> = [];
 
   constructor(
     title: string,
@@ -84,6 +85,7 @@ export class ResultRenderer {
       hoverColors?: string[],
       showNegotiationButton?: boolean
       showOn?: Array<string>
+      dontShowOn?: Array<string>
     } = { },
   ) {
     this.title = title;
@@ -117,5 +119,7 @@ export class ResultRenderer {
       this.showNegotiationButton = options.showNegotiationButton
     if(options.showOn != undefined)
       this.showOn = options.showOn
+    if(options.dontShowOn != undefined)
+      this.dontShowOn = options.dontShowOn
   }
 }
