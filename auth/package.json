@@ -1,6 +1,6 @@
 {
   "name": "@samply/lens-auth",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "peerDependencies": {
     "@angular/common": "^15.1.0",
     "@angular/core": "^15.1.0",
