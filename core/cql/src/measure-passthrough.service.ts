@@ -22,9 +22,13 @@ export class MeasurePassthroughService implements ResultTransformer {
         mappedData == 'null'
       )
         return;
-      const data = JSON.parse(
-        Buffer.from(mappedData, 'base64').toString('binary')
-      );
+
+      let data;
+      if (typeof mappedData === 'string') {
+        data = JSON.parse(mappedData);
+      } else {
+        data = JSON.parse(Buffer.from(mappedData, 'base64').toString('binary'));
+      }
       if (data != undefined && data.group instanceof Array) {
         measures.push(new UnrestrictedMeasure(requestTarget, [data]));
       }
