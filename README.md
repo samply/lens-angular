@@ -1,4 +1,8 @@
-# 🔎 samply.lens 🔍 
+# 🔎 samply.lens-angular 🔍 
+
+
+⚠️ Important: This repository is no longer actively maintained. Please use the new and improved version here: [samply.lens](https://github.com/samply/lens).
+
 
 This library implements a set of standardized services and components for building search-, exploration- and visualization applications.
 The primary target of this library is to deliver a good amount of building blocks while also being open to extensions for all kinds of use cases like different back-end services.
